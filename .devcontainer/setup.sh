@@ -58,11 +58,17 @@ conda run -n metagenomics python --version
 # Do this in R, not conda, for better compatibility with Rocker image
 echo "Installing R packages (this may take 5-10 minutes)..."
 sudo Rscript -e "
-options(repos = c(CRAN = 'https://cloud.r-project.org'))
+# Use Posit Package Manager for pre-compiled binaries (much faster!)
+options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest'))
+options(HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version\$platform, R.version\$arch, R.version\$os)))
+
+# Install CRAN packages from binaries
+install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'), dependencies = TRUE)
+
+# Install BiocManager and phyloseq
 if (!requireNamespace('BiocManager', quietly = TRUE))
     install.packages('BiocManager')
 BiocManager::install(c('phyloseq'), ask = FALSE, update = FALSE)
-install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'), dependencies = TRUE)
 "
 
 # Create workspace directory structure
