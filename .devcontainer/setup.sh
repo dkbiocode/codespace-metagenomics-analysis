@@ -29,46 +29,16 @@ sudo apt-get install -y --no-install-recommends \
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
 
-# Install R packages FIRST to test binary installation (independent of conda)
-# Do this in R, not conda, for better compatibility with Rocker image
-echo ""
-echo "====================================="
-echo "Installing R packages (testing binary installation - should take 2-5 minutes)..."
-echo "====================================="
-sudo Rscript -e "
-# Use Posit Package Manager for pre-compiled binaries (much faster!)
-# Set binaryURL explicitly and disable source packages
-options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest'))
-options(HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version\$platform, R.version\$arch, R.version\$os)))
-options(pkgType = 'binary')
-
-# Verify we're using binaries
-message('Repository: ', getOption('repos'))
-message('Package type: ', getOption('pkgType'))
-
-# Install CRAN packages from binaries
-install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'), dependencies = TRUE, type = 'binary')
-
-# Install BiocManager and phyloseq
-if (!requireNamespace('BiocManager', quietly = TRUE))
-    install.packages('BiocManager', type = 'binary')
-BiocManager::install(c('phyloseq'), ask = FALSE, update = FALSE)
-"
-
-echo ""
-echo "====================================="
-echo "R packages installed successfully!"
-echo "====================================="
-echo ""
-
-# Now install conda environment
+# Install conda environment with both bioinformatics tools AND R packages
 echo "Initializing conda for bash..."
 conda init bash
 source ~/.bashrc || true
 
-# Create metagenomics conda environment with essential tools
+# Create metagenomics conda environment with essential tools AND R packages
 # Using minimal versions to fit in free tier
-echo "Creating metagenomics conda environment (this may take 10-15 minutes)..."
+# Installing R packages via conda ensures all are pre-compiled binaries
+echo "Creating metagenomics conda environment with bioinformatics tools and R packages..."
+echo "(this may take 15-20 minutes)..."
 conda create -n metagenomics -y -c bioconda -c conda-forge \
     python=3.9 \
     fastqc=0.12.1 \
@@ -80,11 +50,17 @@ conda create -n metagenomics -y -c bioconda -c conda-forge \
     maxbin2=2.2.7 \
     checkm-genome=1.2.2 \
     kraken-biom=1.2.0 \
-    screen
+    screen \
+    bioconductor-phyloseq \
+    r-ggplot2 \
+    r-rcolorbrewer \
+    r-patchwork \
+    r-vegan
 
 echo "Conda environment created successfully!"
-# Note: conda activate doesn't work in scripts, use conda run instead
+echo "Verifying installations..."
 conda run -n metagenomics python --version
+conda run -n metagenomics R --version | head -1
 
 # Create workspace directory structure
 echo "Creating workspace directories..."
