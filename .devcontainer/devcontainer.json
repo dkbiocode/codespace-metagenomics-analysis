@@ -1,0 +1,59 @@
+{
+  "name": "Metagenomics Analysis (Free Tier Optimized)",
+
+  // Use Rocker base image with R and RStudio pre-installed
+  // This saves build time and ensures RStudio works correctly
+  "image": "rocker/rstudio:4.3",
+
+  // Run commands after container is created
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
+  // Forward RStudio Server port
+  "forwardPorts": [8787],
+
+  "portsAttributes": {
+    "8787": {
+      "label": "RStudio Server",
+      "onAutoForward": "notify",
+      "protocol": "http"
+    }
+  },
+
+  // VS Code customizations
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "REditorSupport.r"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "r.rterm.linux": "/usr/local/bin/R",
+        "r.rpath.linux": "/usr/local/bin/R"
+      }
+    }
+  },
+
+  // Run as rstudio user (default in rocker images)
+  "remoteUser": "rstudio",
+
+  // Container environment variables
+  "containerEnv": {
+    "DISABLE_AUTH": "true",
+    "PASSWORD": "metagenomics"
+  },
+
+  // Features to add to the container
+  "features": {
+    "ghcr.io/devcontainers/features/conda:1": {
+      "version": "latest"
+    }
+  },
+
+  // Lifecycle scripts
+  "postStartCommand": "echo 'Codespace ready! Open RStudio at http://localhost:8787'",
+
+  // Override default command to start RStudio in background
+  "overrideCommand": false
+}

@@ -1,0 +1,63 @@
+# Data files (too large for git)
+*.fastq
+*.fastq.gz
+*.fasta
+*.fa
+*.fna
+
+# Except adapters (small)
+!TruSeq3-PE.fa
+!*adapters*.fa
+
+# Results and outputs
+*.zip
+*.html
+*.bam
+*.sam
+*.kraken
+*.biom
+
+# Keep precomputed results if small enough
+!results/precomputed/**
+
+# Conda/Micromamba
+micromamba/
+.conda/
+.mamba/
+
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS
+.DS_Store
+Thumbs.db
+*~
+
+# Logs
+*.log
+
+# Checkpoints
+.ipynb_checkpoints/
+
+# Large intermediate files
+K*/
+assembly/K*/
