@@ -56,18 +56,24 @@ conda run -n metagenomics python --version
 
 # Install R packages needed for phyloseq analysis
 # Do this in R, not conda, for better compatibility with Rocker image
-echo "Installing R packages (this may take 5-10 minutes)..."
+echo "Installing R packages (this may take 2-5 minutes with binaries)..."
 sudo Rscript -e "
 # Use Posit Package Manager for pre-compiled binaries (much faster!)
-options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest'))
+# Set binaryURL explicitly and disable source packages
+options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest'))
 options(HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), paste(getRversion(), R.version\$platform, R.version\$arch, R.version\$os)))
+options(pkgType = 'binary')
+
+# Verify we're using binaries
+message('Repository: ', getOption('repos'))
+message('Package type: ', getOption('pkgType'))
 
 # Install CRAN packages from binaries
-install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'), dependencies = TRUE)
+install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'), dependencies = TRUE, type = 'binary')
 
 # Install BiocManager and phyloseq
 if (!requireNamespace('BiocManager', quietly = TRUE))
-    install.packages('BiocManager')
+    install.packages('BiocManager', type = 'binary')
 BiocManager::install(c('phyloseq'), ask = FALSE, update = FALSE)
 "
 
