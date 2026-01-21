@@ -1,11 +1,12 @@
 {
   "name": "Metagenomics Analysis (Free Tier Optimized)",
 
-  // Use Rocker base image with R and RStudio pre-installed
-  // This saves build time and ensures RStudio works correctly
-  "image": "rocker/rstudio:4.3",
+  // Use custom Dockerfile based on rocker/rstudio
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
-  // Run commands after container is created
+  // Run setup script after container is created
   "postCreateCommand": "bash .devcontainer/setup.sh",
 
   // Forward RStudio Server port

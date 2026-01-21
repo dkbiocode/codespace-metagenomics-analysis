@@ -3,7 +3,7 @@ set -e
 
 echo "=== Setting up Metagenomics Analysis Environment ==="
 
-# Install system dependencies for bioinformatics tools
+# Install system dependencies for bioinformatics tools (requires root)
 echo "Installing system dependencies..."
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
@@ -29,10 +29,10 @@ sudo apt-get install -y --no-install-recommends \
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
 
-# Initialize conda for bash
+# Initialize conda for bash (as rstudio user)
 echo "Initializing conda..."
 conda init bash
-source ~/.bashrc
+source ~/.bashrc || true
 
 # Create metagenomics conda environment with essential tools
 # Using minimal versions to fit in free tier
@@ -51,10 +51,12 @@ conda create -n metagenomics -y -c bioconda -c conda-forge \
     screen
 
 echo "Activating metagenomics environment and installing R packages..."
-conda activate metagenomics
+# Note: conda activate doesn't work in scripts, use conda run instead
+conda run -n metagenomics python --version
 
 # Install R packages needed for phyloseq analysis
 # Do this in R, not conda, for better compatibility with Rocker image
+echo "Installing R packages (this may take 5-10 minutes)..."
 sudo Rscript -e "
 options(repos = c(CRAN = 'https://cloud.r-project.org'))
 if (!requireNamespace('BiocManager', quietly = TRUE))
@@ -70,7 +72,7 @@ mkdir -p ~/dc_workshop/results/{fastqc_untrimmed_reads,fastqc_trimmed_reads,asse
 mkdir -p ~/dc_workshop/{taxonomy,mags,docs}
 
 # Download a small test dataset (JC1A only - 48MB total compressed)
-echo "Downloading sample data (small test dataset)..."
+echo "Setting up data directory..."
 cd ~/dc_workshop/data/untrimmed_fastq
 
 # Note: These would need to be the actual SRA accessions or hosted URLs
@@ -205,7 +207,7 @@ echo ""
 echo "Next steps:"
 echo "1. Open RStudio Server at http://localhost:8787"
 echo "2. Username: rstudio | Password: metagenomics"
-echo "3. Check ~/workspace/README.md for detailed instructions"
+echo "3. Check ~/README.md for detailed instructions"
 echo ""
 echo "💡 Free tier tip: Use JC1A sample for faster learning!"
 echo ""
