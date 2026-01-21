@@ -29,34 +29,12 @@ sudo apt-get install -y --no-install-recommends \
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
 
-# Initialize conda for bash (as rstudio user)
-echo "Initializing conda..."
-conda init bash
-source ~/.bashrc || true
-
-# Create metagenomics conda environment with essential tools
-# Using minimal versions to fit in free tier
-echo "Creating metagenomics conda environment (this may take 10-15 minutes)..."
-conda create -n metagenomics -y -c bioconda -c conda-forge \
-    python=3.9 \
-    fastqc=0.12.1 \
-    trimmomatic=0.39 \
-    spades=3.15.5 \
-    bowtie2=2.5.1 \
-    kraken2=2.1.3 \
-    krona=2.8.1 \
-    maxbin2=2.2.7 \
-    checkm-genome=1.2.2 \
-    kraken-biom=1.2.0 \
-    screen
-
-echo "Activating metagenomics environment and installing R packages..."
-# Note: conda activate doesn't work in scripts, use conda run instead
-conda run -n metagenomics python --version
-
-# Install R packages needed for phyloseq analysis
+# Install R packages FIRST to test binary installation (independent of conda)
 # Do this in R, not conda, for better compatibility with Rocker image
-echo "Installing R packages (this may take 2-5 minutes with binaries)..."
+echo ""
+echo "====================================="
+echo "Installing R packages (testing binary installation - should take 2-5 minutes)..."
+echo "====================================="
 sudo Rscript -e "
 # Use Posit Package Manager for pre-compiled binaries (much faster!)
 # Set binaryURL explicitly and disable source packages
@@ -76,6 +54,37 @@ if (!requireNamespace('BiocManager', quietly = TRUE))
     install.packages('BiocManager', type = 'binary')
 BiocManager::install(c('phyloseq'), ask = FALSE, update = FALSE)
 "
+
+echo ""
+echo "====================================="
+echo "R packages installed successfully!"
+echo "====================================="
+echo ""
+
+# Now install conda environment
+echo "Initializing conda for bash..."
+conda init bash
+source ~/.bashrc || true
+
+# Create metagenomics conda environment with essential tools
+# Using minimal versions to fit in free tier
+echo "Creating metagenomics conda environment (this may take 10-15 minutes)..."
+conda create -n metagenomics -y -c bioconda -c conda-forge \
+    python=3.9 \
+    fastqc=0.12.1 \
+    trimmomatic=0.39 \
+    spades=3.15.5 \
+    bowtie2=2.5.1 \
+    kraken2=2.1.3 \
+    krona=2.8.1 \
+    maxbin2=2.2.7 \
+    checkm-genome=1.2.2 \
+    kraken-biom=1.2.0 \
+    screen
+
+echo "Conda environment created successfully!"
+# Note: conda activate doesn't work in scripts, use conda run instead
+conda run -n metagenomics python --version
 
 # Create workspace directory structure
 echo "Creating workspace directories..."
