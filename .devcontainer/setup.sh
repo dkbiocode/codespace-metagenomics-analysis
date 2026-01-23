@@ -45,7 +45,7 @@ echo "(using pre-compiled binaries for fast installation)"
 # Install remaining R packages using Posit Package Manager (P3M) binaries
 echo "Installing additional R packages from P3M..."
 sudo R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
-    install.packages(c('digest', 'jsonlite', 'plyr', 'Rcpp', 'iterators', 'foreach', 'bitops', 'RCurl', 'ggplot2', 'RColorBrewer', 'patchwork', 'vegan', 'stringr', 'crayon','lattice'))"
+    install.packages(c('jsonlite', 'cpp11', 'labeling', 'R6', 'viridisLite', 'cli', 'gtable', 'isoband', 'lifecycle', 'rlang', 'S7', 'scales', 'vctrs', 'withr', 'farver', 'permute', 'glue', 'magrittr', 'stringi', 'digest', 'plyr', 'Rcpp', 'iterators', 'foreach', 'bitops', 'RCurl', 'ggplot2', 'RColorBrewer', 'patchwork', 'vegan', 'stringr', 'crayon','lattice'))"
 
 
 # Install pre-built binaries for packages with heavy compilation (HDF5, igraph, phyloseq)
