@@ -68,17 +68,19 @@ echo "(using pre-compiled binaries for fast installation)"
 
 # Install pre-built binaries for packages with heavy compilation (HDF5, igraph, phyloseq)
 echo "Installing pre-built R package binaries..."
-sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/Rhdf5lib_*.tar.gz
-sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/rhdf5filters_*.tar.gz
-sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/rhdf5_*.tar.gz
-sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/igraph_*.tar.gz
-sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/biomformat_*.tar.gz
-sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/phyloseq_*.tar.gz
+for tgz in /workspaces/codespace-metagenomics-analysis/binaries/*.tar.gz;
+do
+  [[ $tgz =~ "phyloseq" ]] && continue # skip and install via Biocmanager to handle deps
+  sudo R CMD INSTALL $tgz
+done
 
 # Install remaining R packages using Posit Package Manager (P3M) binaries
 echo "Installing additional R packages from P3M..."
 sudo R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
     install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'))"
+
+echo "Install phyloseq from Bioconductor, hopefully it will handle deps"
+sudo R -e "BiocManager::install('phyloseq')"
 
 echo "R package installation complete!"
 R -e "cat('Installed versions:\n'); cat('phyloseq:', as.character(packageVersion('phyloseq')), '\n'); cat('ggplot2:', as.character(packageVersion('ggplot2')), '\n')"
