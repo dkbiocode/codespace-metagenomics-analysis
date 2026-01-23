@@ -3,7 +3,7 @@ set -e
 
 echo "=== Setting up Metagenomics Analysis Environment ==="
 
-# Install system dependencies for bioinformatics tools (requires root)
+# Install system dependencies for bioinformatics tools AND R packages (requires root)
 echo "Installing system dependencies..."
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
@@ -23,22 +23,28 @@ sudo apt-get install -y --no-install-recommends \
     libz-dev \
     libbz2-dev \
     liblzma-dev \
-    libncurses5-dev
+    libncurses5-dev \
+    libglpk40 \
+    libglpk-dev \
+    libhdf5-dev \
+    libxml2-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libgmp-dev
 
 # Clean up to save space
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
 
-# Install conda environment with both bioinformatics tools AND R packages
+# Install conda environment with bioinformatics tools only (NOT R packages)
+# R packages are installed separately using system R to avoid conda/RStudio conflicts
 echo "Initializing conda for bash..."
 conda init bash
 source ~/.bashrc || true
 
-# Create metagenomics conda environment with essential tools AND R packages
-# Using minimal versions to fit in free tier
-# Installing R packages via conda ensures all are pre-compiled binaries
-echo "Creating metagenomics conda environment with bioinformatics tools and R packages..."
-echo "(this may take 15-20 minutes)..."
+# Create metagenomics conda environment with bioinformatics tools only
+echo "Creating metagenomics conda environment with bioinformatics tools..."
+echo "(this may take 10-15 minutes)..."
 conda create -n metagenomics -y -c bioconda -c conda-forge \
     python=3.9 \
     fastqc=0.12.1 \
@@ -50,17 +56,32 @@ conda create -n metagenomics -y -c bioconda -c conda-forge \
     maxbin2=2.2.7 \
     checkm-genome=1.2.2 \
     kraken-biom=1.2.0 \
-    screen \
-    bioconductor-phyloseq \
-    r-ggplot2 \
-    r-rcolorbrewer \
-    r-patchwork \
-    r-vegan
+    screen
 
 echo "Conda environment created successfully!"
 echo "Verifying installations..."
 conda run -n metagenomics python --version
-conda run -n metagenomics R --version | head -1
+
+# Install R packages for metagenomics analysis (using system R, not conda R)
+echo "Installing R packages for phyloseq analysis..."
+echo "(using pre-compiled binaries for fast installation)"
+
+# Install pre-built binaries for packages with heavy compilation (HDF5, igraph, phyloseq)
+echo "Installing pre-built R package binaries..."
+sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/Rhdf5lib_*.tar.gz
+sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/rhdf5filters_*.tar.gz
+sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/rhdf5_*.tar.gz
+sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/igraph_*.tar.gz
+sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/biomformat_*.tar.gz
+sudo R CMD INSTALL /workspaces/codespace-metagenomics-analysis/binaries/phyloseq_*.tar.gz
+
+# Install remaining R packages using Posit Package Manager (P3M) binaries
+echo "Installing additional R packages from P3M..."
+sudo R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
+    install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'))"
+
+echo "R package installation complete!"
+R -e "cat('Installed versions:\n'); cat('phyloseq:', as.character(packageVersion('phyloseq')), '\n'); cat('ggplot2:', as.character(packageVersion('ggplot2')), '\n')"
 
 # Create workspace directory structure
 echo "Creating workspace directories..."
@@ -104,11 +125,15 @@ Open your browser to: http://localhost:8787
 - Username: rstudio
 - Password: metagenomics
 
-### 2. Activate the metagenomics environment
-In RStudio Terminal tab:
-```bash
-conda activate metagenomics
-```
+### 2. Using the environment
+- **For command-line tools** (FastQC, Trimmomatic, MetaSPAdes, etc.):
+  - In RStudio Terminal tab or VS Code terminal:
+  ```bash
+  conda activate metagenomics
+  ```
+- **For R analysis** (phyloseq, ggplot2, etc.):
+  - Use RStudio Console directly (R packages are already available)
+  - No conda activation needed for R work
 
 ### 3. Download sample data
 ```bash
@@ -151,12 +176,20 @@ This Codespace is configured for GitHub Free tier (2-core, 8GB RAM, 32GB storage
 
 ## Software Installed
 
+**Command-line tools (conda environment):**
 - **Quality Control**: FastQC 0.12.1
 - **Trimming**: Trimmomatic 0.39
 - **Assembly**: MetaSPAdes 3.15.5
 - **Binning**: MaxBin2 2.2.7, CheckM 1.2.2
 - **Taxonomy**: Kraken2 2.1.3, Krona 2.8.1, kraken-biom 1.2.0
-- **R Analysis**: R 4.3, RStudio Server, phyloseq, ggplot2, RColorBrewer, patchwork, vegan
+
+**R environment (system R with RStudio Server):**
+- **R 4.3** with RStudio Server
+- **phyloseq** - Metagenome analysis framework
+- **ggplot2** - Data visualization
+- **RColorBrewer** - Color palettes
+- **patchwork** - Multi-panel plots
+- **vegan** - Diversity analysis
 
 ## Lessons
 
