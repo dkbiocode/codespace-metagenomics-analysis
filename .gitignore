@@ -1,3 +1,5 @@
+R_src_build_pkgs/
+
 # Data files (too large for git)
 *.fastq
 *.fastq.gz
