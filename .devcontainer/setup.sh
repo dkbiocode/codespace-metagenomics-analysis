@@ -36,6 +36,29 @@ sudo apt-get install -y --no-install-recommends \
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
 
+
+# Install R packages for metagenomics analysis (using system R, not conda R)
+echo "Installing R packages for phyloseq analysis..."
+echo "(using pre-compiled binaries for fast installation)"
+
+
+# Install remaining R packages using Posit Package Manager (P3M) binaries
+echo "Installing additional R packages from P3M..."
+sudo R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
+    install.packages(c('digest', 'jsonlite', 'plyr', 'Rcpp', 'iterators', 'foreach', 'bitops', 'RCurl', 'ggplot2', 'RColorBrewer', 'patchwork', 'vegan', 'stringr', 'crayon','lattice'))"
+
+
+# Install pre-built binaries for packages with heavy compilation (HDF5, igraph, phyloseq)
+echo "Installing pre-built R package binaries..."
+for tgz in /workspaces/codespace-metagenomics-analysis/binaries/*.tar.gz;
+do
+  sudo R CMD INSTALL $tgz
+done
+
+R -e "library(phyloseq);"
+echo "R package installation complete!"
+
+
 # Install conda environment with bioinformatics tools only (NOT R packages)
 # R packages are installed separately using system R to avoid conda/RStudio conflicts
 echo "Initializing conda for bash..."
@@ -52,7 +75,6 @@ conda create -n metagenomics -y -c bioconda -c conda-forge \
     spades=3.15.5 \
     bowtie2=2.5.1 \
     kraken2=2.1.3 \
-    krona=2.8.1 \
     maxbin2=2.2.7 \
     checkm-genome=1.2.2 \
     kraken-biom=1.2.0 \
@@ -62,28 +84,6 @@ echo "Conda environment created successfully!"
 echo "Verifying installations..."
 conda run -n metagenomics python --version
 
-# Install R packages for metagenomics analysis (using system R, not conda R)
-echo "Installing R packages for phyloseq analysis..."
-echo "(using pre-compiled binaries for fast installation)"
-
-# Install pre-built binaries for packages with heavy compilation (HDF5, igraph, phyloseq)
-echo "Installing pre-built R package binaries..."
-for tgz in /workspaces/codespace-metagenomics-analysis/binaries/*.tar.gz;
-do
-  [[ $tgz =~ "phyloseq" ]] && continue # skip and install via Biocmanager to handle deps
-  sudo R CMD INSTALL $tgz
-done
-
-# Install remaining R packages using Posit Package Manager (P3M) binaries
-echo "Installing additional R packages from P3M..."
-sudo R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
-    install.packages(c('ggplot2', 'RColorBrewer', 'patchwork', 'vegan'))"
-
-echo "Install phyloseq from Bioconductor, hopefully it will handle deps"
-sudo R -e "BiocManager::install('phyloseq')"
-
-echo "R package installation complete!"
-R -e "cat('Installed versions:\n'); cat('phyloseq:', as.character(packageVersion('phyloseq')), '\n'); cat('ggplot2:', as.character(packageVersion('ggplot2')), '\n')"
 
 # Create workspace directory structure
 echo "Creating workspace directories..."
