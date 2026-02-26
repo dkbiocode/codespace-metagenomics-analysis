@@ -52,7 +52,11 @@
   },
 
   // Lifecycle scripts
-  "postStartCommand": "echo 'Codespace ready! Open RStudio at http://localhost:8787'",
+  // Note: RStudio Server auto-starts with rocker image
+  // To stop it: sudo rstudio-server stop
+  // To start manually: sudo rstudio-server start
+  "postStartCommand": "echo 'Codespace ready! RStudio Server is available but not started. Run: sudo rstudio-server start'",
 
-  "overrideCommand": false
+  // Override default command to prevent RStudio auto-start
+  "overrideCommand": true
 }

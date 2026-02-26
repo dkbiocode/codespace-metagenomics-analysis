@@ -41,6 +41,13 @@ RUN R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest'
     'plyr', 'Rcpp', 'iterators', 'foreach', 'bitops', 'RCurl', 'ggplot2', \
     'RColorBrewer', 'patchwork', 'vegan', 'stringr', 'crayon', 'lattice'))"
 
+# Install RStudio markdown rendering dependencies
+# These are needed for previewing .md files in RStudio
+RUN R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
+    install.packages(c('base64enc', 'evaluate', 'highr', 'htmltools', 'knitr', \
+    'mime', 'rmarkdown', 'xfun', 'yaml', 'bslib', 'fontawesome', 'jquerylib', \
+    'tinytex', 'fs', 'rappdirs', 'cachem', 'memoise', 'sass'))"
+
 # Install pre-built binaries (your proven method)
 RUN for tgz in /tmp/binaries/*.tar.gz; do R CMD INSTALL "$tgz"; done
 
