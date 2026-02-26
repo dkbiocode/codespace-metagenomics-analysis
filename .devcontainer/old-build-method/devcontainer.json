@@ -1,12 +1,13 @@
 {
-  "name": "Metagenomics Analysis (Pre-built Image)",
+  "name": "Metagenomics Analysis (Free Tier Optimized)",
 
-  // Use pre-built image from GitHub Container Registry
-  // This eliminates the 10-15 minute setup.sh installation
-  "image": "ghcr.io/meekrob/metagenomics-codespace:latest",
+  // Use custom Dockerfile based on rocker/rstudio
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
-  // Minimal post-create setup (just conda and workspace structure)
-  "postCreateCommand": "bash .devcontainer/setup-minimal.sh",
+  // Run setup script after container is created
+  "postCreateCommand": "bash .devcontainer/setup.sh",
 
   // Forward RStudio Server port
   "forwardPorts": [8787],
@@ -35,7 +36,7 @@
     }
   },
 
-  // Run as rstudio user
+  // Run as rstudio user (default in rocker images)
   "remoteUser": "rstudio",
 
   // Container environment variables
@@ -44,7 +45,7 @@
     "PASSWORD": "metagenomics"
   },
 
-  // Add conda feature
+  // Features to add to the container
   "features": {
     "ghcr.io/devcontainers/features/conda:1": {
       "version": "latest"
@@ -54,5 +55,6 @@
   // Lifecycle scripts
   "postStartCommand": "echo 'Codespace ready! Open RStudio at http://localhost:8787'",
 
+  // Override default command to start RStudio in background
   "overrideCommand": false
 }

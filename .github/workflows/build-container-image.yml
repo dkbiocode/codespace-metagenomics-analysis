@@ -1,0 +1,73 @@
+name: Build and Push Container Image
+
+# Automatically rebuild the pre-built image when Dockerfile changes
+# This ensures Codespaces always get the latest working environment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.devcontainer/Dockerfile.prebuilt'
+      - 'binaries/**'  # If binaries are updated
+      - '.github/workflows/build-container-image.yml'
+
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
+
+  # Optional: rebuild weekly to pick up base image security updates
+  schedule:
+    - cron: '0 2 * * 0'  # 2 AM UTC every Sunday
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write  # Required to push to ghcr.io
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/metagenomics-codespace
+          tags: |
+            type=raw,value=latest
+            type=sha,prefix={{branch}}-
+            type=ref,event=branch
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .devcontainer/Dockerfile.prebuilt
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/metagenomics-codespace:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/metagenomics-codespace:buildcache,mode=max
+
+      - name: Test image
+        run: |
+          docker run --rm ghcr.io/${{ github.repository_owner }}/metagenomics-codespace:latest \
+            R -e "library(phyloseq); cat('✅ phyloseq test passed!\n')"
+
+      - name: Image details
+        run: |
+          echo "Image pushed to: ghcr.io/${{ github.repository_owner }}/metagenomics-codespace"
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
+          docker images ghcr.io/${{ github.repository_owner }}/metagenomics-codespace:latest
