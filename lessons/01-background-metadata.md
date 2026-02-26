@@ -4,7 +4,7 @@
 
 ## Questions
 - How do you plan a metagenomics experiment?
-- How does a metagenomics project look like?
+- What does a metagenomics project look like?
 
 ## Objectives
 - Learn the differences between shotgun and metabarcoding (amplicon metagenomics) techniques.
@@ -43,10 +43,9 @@ know what questions we want to answer.
 There are two paths to obtain information from a complex sample: 
 
 1. **Shotgun Metagenomics**  
-2. **Metabarcoding**. 
+2. **Metabarcoding**
 
-Each is named after the sequencing methodology employed 
-Moreover, have particular use cases with inherent advantages and disadvantages.
+Each is named after the sequencing methodology employed, and each has inherent advantages and disadvantages.
 
 With **Shotgun Metagenomics**, we sequence random parts (ideally all of them) of the 
 genomes present in a sample. We can search the origin of these 
@@ -123,11 +122,11 @@ extensively studied by [Valeria Souza](https://es.wikipedia.org/wiki/Valeria_Sou
 Cuatro Ciénegas is an oasis in the Mexican desert whose 
 environmental conditions are often linked to the ones present in
 [ancient seas](https://elifesciences.org/articles/38278), due to 
-a higher-than-average content of sulfur and magnesium but a lower 
+a higher-than-average content of sulfur and magnesium but lower 
 concentrations of phosphorus and other nutrients. Because of these particular 
 conditions, the Cuatro Ciénegas basin is a fascinating place to conduct 
-a metagenomic study to learn more about the bacterial diversity that is capable to
-survive and thrive in that environment.
+a metagenomic study to learn more about the diversity of bacterial species capable of
+surviving and thriving in that environment.
 
 The particular metagenomic study that we are going to work with was collected in a
 [study about the response of the Cuatro Cienegas' bacterial community to nutrient enrichment.](https://elifesciences.org/articles/49816) 

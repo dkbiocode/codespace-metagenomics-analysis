@@ -25,8 +25,8 @@ An example of the workflow we will be using for our analysis is provided below, 
 description of each step. 
 
 
- <a href="{{ page.root }}/fig/03-02-01.png">
-  <img src="{{ page.root }}/fig/03-02-01.png" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy" />
+ <a href="../fig/03-02-01.png">
+  <img src="../fig/03-02-01.png" alt="Flow diagram that shows the steps: Sequence reads, Quality control, Assembly, Binning and Taxonomy" />
 </a>
 
 
@@ -46,8 +46,8 @@ built, assuming that the data will be provided in a specific format.
 We will now assess the quality of the sequence reads contained in our FASTQ files. 
 
 
- <a href="{{ page.root }}/fig/03-02-02.png">
-  <img src="{{ page.root }}/fig/03-02-02.png" alt="Flow diagram that shows the steps: Sequence reads and Quality control." />
+ <a href="../fig/03-02-02.png">
+  <img src="../fig/03-02-02.png" alt="Flow diagram that shows the steps: Sequence reads and Quality control." />
 </a>
 
 
@@ -243,8 +243,8 @@ data may have, so you can consider these issues before moving forward with your
 analyses. Rather than looking at quality scores for each read, FastQC looks at
 quality collectively across all reads within a sample. The image below shows one FastQC-generated plot that indicates a very high-quality sample:
 
- <a href="{{ page.root }}/fig/03-02-03.png">
-  <img src="{{ page.root }}/fig/03-02-03.png" alt="Quality graph showing a boxplot for each sequence position in the x-axis, and the Phred score in the y-axis. The background is colored red for the Phred scores 0 to 20, yellow for the scores 20 to 28, and green for the scores 28 to 38. All of the boxes for each position are in the green area." />
+ <a href="../fig/03-02-03.png">
+  <img src="../fig/03-02-03.png" alt="Quality graph showing a boxplot for each sequence position in the x-axis, and the Phred score in the y-axis. The background is colored red for the Phred scores 0 to 20, yellow for the scores 20 to 28, and green for the scores 28 to 38. All of the boxes for each position are in the green area." />
 </a>
 
 The x-axis displays the base position in the read, and the y-axis shows quality scores. In this 
@@ -261,8 +261,8 @@ acceptable (yellow) and bad (red) quality scores.
 
 Now let's look at a quality plot on the other end of the spectrum. 
 
- <a href="{{ page.root }}/fig/03-02-04.png">
-  <img src="{{ page.root }}/fig/03-02-04.png" alt="Graphic of boxplots, where the first ones are in the good range of scores of the y-axis and extend to the acceptable and bad ranges of scores toward the right of the x-axis" />
+ <a href="../fig/03-02-04.png">
+  <img src="../fig/03-02-04.png" alt="Graphic of boxplots, where the first ones are in the good range of scores of the y-axis and extend to the acceptable and bad ranges of scores toward the right of the x-axis" />
 </a>
 
 The FastQC tool produces several other diagnostic plots to assess sample quality and the one plotted above. Here, we see positions within the read in which the boxes span a much more comprehensive range. Also, quality scores drop pretty low into the "bad" range, particularly on the tail end of the reads. 
@@ -649,10 +649,10 @@ us whether this sample passed, failed, or is borderline (`WARN`). Remember, to q
 
 ## Documenting our work
 
-We can make a record of the results we obtained for all our samples
+<mark>We can make a record of the results we obtained for all our samples
 by concatenating all of our `summary.txt` files into a single file 
 using the `cat` command. We'll call this `fastqc_summaries.txt` and store
-it to `~/dc_workshop/docs`.
+it to `~/dc_workshop/docs`.</mark>
 
 ~~~
 $ mkdir -p ~/dc_workshop/docs

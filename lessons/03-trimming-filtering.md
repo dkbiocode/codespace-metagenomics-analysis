@@ -97,11 +97,11 @@ clean your data is essential. We will use only a few options and trimming steps 
 analysis. For more information about the Trimmomatic arguments
 and options, see [the Trimmomatic manual](http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf).
 
-<a href="{{ page.root }}/fig/03-03-01.png">
-  <img src="{{ page.root }}/fig/03-03-01.png" alt="Diagram showing the parts of the sequence that are reviewed by each parameter and the parts that are maintained or discarded at the end of the process. The Illuminaclip parameter removes the adapters, and the SlidingWindow scans the read by sections and removes a part of the read below the quality threshold. We remain with a trimmed read that has a valid quality." />
+<a href="../fig/03-03-01.png">
+  <img src="../fig/03-03-01.png" alt="Diagram showing the parts of the sequence that are reviewed by each parameter and the parts that are maintained or discarded at the end of the process. The Illuminaclip parameter removes the adapters, and the SlidingWindow scans the read by sections and removes a part of the read below the quality threshold. We remain with a trimmed read that has a valid quality." />
 </a>
 
-However, a complete command for Trimmomatic will look something like the command below. This command is an example and will not work, as we do not have the files it refers to:
+However, a complete command for Trimmomatic will look something like the command below. This command is an example and will not work, as we do not have the files it refers to (and our Codespace only has 2 threads):
 
 ~~~
 $ trimmomatic PE -threads 4 SRR_1056_1.fastq SRR_1056_2.fastq \
