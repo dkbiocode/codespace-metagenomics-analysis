@@ -28,6 +28,7 @@ characteristics of niches (* e.g.,*, the human gut or the ocean floor).
 
 Since metagenomes are mixtures of sequences that belong to different species, 
 a metagenomic workflow is designed to answer two questions: 
+
 1. What species are represented in the sample?
 2. What are they capable of doing?
 
@@ -40,6 +41,7 @@ know what questions we want to answer.
 
 ## Shotgun and amplicon
 There are two paths to obtain information from a complex sample: 
+
 1. **Shotgun Metagenomics**  
 2. **Metabarcoding**. 
 
@@ -81,9 +83,9 @@ directly tell us a lot about the metabolic functions found in each genome,
 although educated guesses can be made by knowing which genes are 
 commonly found in every identified species. 
 
-<a href="{{ page.root }}/fig/03-01-01.png">
-  <img src="{{ page.root }}/fig/03-01-01.png" alt="Flow chart that shows the steps of a metagenomics project: Experimental design, Sampling, DNA extraction, Sequencing, Read quality, Assembly, Binning, Bin quality and Data analysis " />
-</a>
+
+<img src="../fig/03-01-01.png" alt="Flow chart that shows the steps of a metagenomics project: Experimental design, Sampling, DNA extraction, Sequencing, Read quality, Assembly, Binning, Bin quality and Data analysis " />
+
 
 ## On Metadata
 
@@ -110,8 +112,8 @@ of our experimental design to the metadata we expect to collect and record caref
 
 
 ## Cuatro Ciénegas  
-<a href="{{ page.root }}/fig/03-01-02.jpeg">
-  <img src="{{ page.root }}/fig/03-01-02.jpeg" alt="Photography of a pond in Cuatro Ciénegas" />
+<a href="../fig/03-01-02.jpeg">
+  <img src="../fig/03-01-02.jpeg" alt="Photography of a pond in Cuatro Ciénegas" />
 </a>
 
 During this lesson, we will work with actual metagenomic information, 
