@@ -14,8 +14,8 @@
 
 ## Key Points
 - Assembly groups reads into contigs.
-- De Bruijn Graphs use Kmers to assembly cleaned reads.
-- Program screen allows you to keep open remote sessions.
+- De Bruijn Graphs use Kmers to assemble cleaned reads.
+- <mark>Program screen allows you to keep open remote sessions.</mark>
 - MetaSPAdes is a metagenomes assembler.
 - Assemblers take FastQ files as input and produce a Fasta file as output.
 
@@ -26,8 +26,8 @@ chromosome. There are many programs devoted to
 [genome](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2874646/) and 
 metagenome assembly, some of the main strategies they use are Greedy extension, OLC, and De Bruijn charts. Contrary to metabarcoding, shotgun metagenomics needs an assembly step, which does not mean that metabarcoding never uses an assembly step but sometimes is unnecessary.
 
-<a href="{{ page.root }}/fig/03-04-01.png">
-  <img src="{{ page.root }}/fig/03-04-01.png" width="868" height="777" alt="Three diagrams depicting the three assembly algorithms: The Greedy extension starts with any read, extends it whit the reads that make a match to make a contig, it continues with a different read when the previous contig can not be extended anymore. The Overlap Layout consensus finds every pairwise overlap, makes a layout graph with all the overlaps and chooses consensus sequences to make the contigs. The De Bruijn Graphs divides the reads in k-mers, makes a k-mer graph that shows all the overlapping k-mers, and chooses paths from the graph to make the contigs. " />
+<a href="../fig/03-04-01.png">
+  <img src="../fig/03-04-01.png" width="868" height="777" alt="Three diagrams depicting the three assembly algorithms: The Greedy extension starts with any read, extends it whit the reads that make a match to make a contig, it continues with a different read when the previous contig can not be extended anymore. The Overlap Layout consensus finds every pairwise overlap, makes a layout graph with all the overlaps and chooses consensus sequences to make the contigs. The De Bruijn Graphs divides the reads in k-mers, makes a k-mer graph that shows all the overlapping k-mers, and chooses paths from the graph to make the contigs. " />
 </a>
 
 [MetaSPAdes](https://github.com/ablab/spades) is an NGS de novo assembler 
@@ -122,7 +122,7 @@ Input data:
 > ~~~
 > conda activate metagenomics
 > ~~~
-> {: .language-bash}
+
 
  
 ## MetaSPAdes is a metagenomics assembler
@@ -173,9 +173,9 @@ contigs.paths                            K33/                    run_spades.yaml
 As we can see, MetaSPAdes gave us a lot of files. The ones with the assembly are the `contigs.fasta` and the `scaffolds.fasta`. 
 Also, we found three `K` folders: _K21, K33, and K55_; this contains the individual result files for an assembly 
 with k-mers equal to those numbers: 21, 33, and 55. The best-assembled results are 
-the ones that are displayed outside these k-folders. The folder `corrected` hold the corrected reads 
+the ones that are displayed outside these k-folders. The folder `corrected` holds the corrected reads 
 with the SPAdes algorithm. Moreover, the file 
-`assembly_graph_with_scaffolds.gfa` have the information needed to visualize 
+`assembly_graph_with_scaffolds.gfa` has the information needed to visualize 
 our assembly by different means, like programs such as [Bandage](https://rrwick.github.io/Bandage/).
 
 The contigs are just made from assembled reads, but the scaffolds are the result 
@@ -185,7 +185,7 @@ We can recognize which sample our assembly outputs corresponds to because they a
 the assembly results folder: `assembly_JC1A/`. However, the files within it do not have the 
 sample ID. If we need the files out of their folder, it is beneficial to rename them.
 
-> ## Exercise 1: Rename all files in a folder (needed in the next episode)
+> ## Exercise 1: Rename all files in a folder (needed in the next lesson)
 >
 > Add the prefix `JC1A` (the sample ID) separated by a `_` to the beginning of the names of all the contents in the `assembly_JC1A/` directory. Remember that many solutions are possible.
 > 

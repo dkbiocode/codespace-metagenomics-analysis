@@ -116,7 +116,7 @@ In this example, we have told Trimmomatic:
 | code   | meaning |
 | ------- | ---------- |
 | `PE` | that it will be taking a paired-end file as input |
-| `-threads 4` | to use four computing threads to run (this will speed up our run) |
+| `-threads 4` | to use four computing threads to run (configure this for your environment) |
 | `SRR_1056_1.fastq` | the first input file name. Forward |
 | `SRR_1056_2.fastq` | the second input file name. Reverse |
 | `SRR_1056_1.trimmed.fastq` | the output file for surviving pairs from the `_1` file |
