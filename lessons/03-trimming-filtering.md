@@ -225,10 +225,8 @@ TrimmomaticPE: Completed successfully
 > 1) What percent of reads did we discard from our sample?  
 > 2) What percent of reads did we keep both pairs?
 >
->> ## Solution
->> 1) 1.76%    
->> 2) 66.85%
-> 
+>
+> **[View Exercise with Solution](.03-trimming-filtering-exercises/exercise-1.md)**> 
 
 
 You may have noticed that Trimmomatic automatically detected the
@@ -352,34 +350,8 @@ JC1A_R2un.trim.fastq.gz  JP4D_R2un.trim.fastq.gz
 > ~~~
 > 
 > 
->> ## Solution
->>
->> In your Codespace terminal window, do the following:
->>
->> ~~~
->> $ fastqc ~/dc_workshop/data/trimmed_fastq/*.fastq*
->> ~~~
->> 
->>
->> In a terminal standing on your local computer, do:
->>
->> ~~~
->> $ mkdir ~/Desktop/fastqc_html/trimmed
->> $ scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/data/trimmed_fastq/*.html ~/Desktop/fastqc_html/trimmed
->> ~~~
->> 
->> 
->> Then take a look at the html files in your browser.
->>
->> Remember to replace everything between the `@` and `:` in your scp
->> command with your Codespace instance address.
->>
->> After trimming and filtering, our overall quality is much higher, 
->> we have a distribution of sequence lengths, and more samples pass 
->> adapter content. However, quality trimming is not perfect, and some
->> programs are better at removing some sequences than others. Trimmomatic 
->> did pretty well, though, and its performance is good enough for our workflow.
 >
+> **[View Exercise with Solution](.03-trimming-filtering-exercises/exercise-2.md)**>
 
 ---
 

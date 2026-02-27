@@ -265,35 +265,8 @@ information; and plotting**:
 >  | Convert the abundance counts to relative abundance. | `genus_colors_proteo<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(proteo_df$Genus)))` |  
 >  | Make a palette with the appropriate colors for the number of genera. | `proteo_df$Genus <- as.factor(proteo_df$Genus)` |  
 > 
->> ## Solution
->> ~~~
->> # Create a phyloseq object only with the reads assigned to a certain phylum.
->> proteo <- subset_taxa(merged_metagenomes, Phylum == "Proteobacteria")
->> # Look at the phyla present in your phyloseq object
->> unique(proteo@tax_table@.Data[,2])
->> # Convert the abundance counts to the relative abundance
->> proteo_percentages <- transform_sample_counts(proteo, function(x) x*100 / sum(x) )
->> # Make just one row that groups all the observations of the same genus.
->> proteo_glom <- tax_glom(proteo_percentages, taxrank = "Genus")
->> # Transform the phyloseq object to a data frame
->> proteo_df <- psmelt(proteo_glom)
->> # Convert all the genera that have less than 3% of abundance into only one label
->> proteo_df$Genus[proteo_df$Abundance < 3] <- "Genera < 3% abund"
->> # Convert the Genus column into the factor structure
->> proteo_df$Genus <- as.factor(proteo_df$Genus)
->> # Make a palette with the appropriate colors for the number of genera
->> genus_colors_proteo<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(proteo_df$Genus)))
->> # Plot the relative abundance at the genus levels
->> plot_proteo <- ggplot(data=proteo_df, aes(x=Sample, y=Abundance, fill=Genus))+ 
->>   geom_bar(aes(), stat="identity", position="stack")+
->>   scale_fill_manual(values = genus_colors_proteo)
->> # Show the plot
->> plot_proteo  
->> ~~~
->> {: .language-r} 
->><a href="{{ page.root }}/fig/03-09-06.png">
->>  <img src="{{ page.root }}/fig/03-09-06.png" alt="A new plot with three bars 
-  representing the absolute abundance of Proteobacteria in each of the samples. 
+>
+> **[View Exercise with Solution](.09-abundance-analyses-exercises/exercise-1.md)**  representing the absolute abundance of Proteobacteria in each of the samples. 
   Each of the colors represents a Genus. Because we see relative 
   abundances, all the bars have the same height." />
 >></a>

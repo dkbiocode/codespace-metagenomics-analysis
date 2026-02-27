@@ -134,12 +134,8 @@ There are different ways to plot and show the results of such analysis. Among ot
 > Please, paste your result on the collaborative document provided by instructors. 
 > *Hic Sunt Leones!* (*Here be Lions!*)  
 >
->> ## Solution
->> Answer: 2. 4, 3, 5
->> **Alpha diversity** in this case, is the sum of different species. Lake **A** has **4** different species and lake **B** has **3** different species.
->> **Beta diversity** refers to the difference between lake A and lake B. If we use the formula in *Figure 2* we can see that to calculate beta diversity, we have to detect the number of species and the number of shared species in both lakes. There is only one shared species, so we have to subtract the number of shared species to the total species and sum the result. In this case, in lake A, we have 4 different species and one shared species with lake B (4-1)=3, and in lake B we have three species and one shared species with lake A (3-1)=2. If we add 3+2, the result is 5. 
->>   
-> 
+>
+> **[View Exercise with Solution](.08-Diversity-tackled-with-R-exercises/exercise-1.md)**> 
 
 
 ## Plot alpha diversity 
@@ -230,51 +226,8 @@ remarking the impossibility of taking two reads out of the metagenome "bag" and 
 > Use these options to generate new figures that show you 
 > other ways to present the data.
 >
->> ## Solution
->> The code and the plot using the three options will look as follows:
->> The "title" option adds a title to the figure.
->> ~~~
->> > plot_richness(physeq = merged_metagenomes, 
->>              title = "Alpha diversity indexes for three samples from Cuatro Cienegas",
->>              measures = c("Observed","Chao1","Shannon"))
->> ~~~
->> {: .language-r}
->> 
->> <a href="{{ page.root }}/fig/03-08-05.png">
->>  <img src="{{ page.root }}/fig/03-08-05.png" alt="" />
->> </a>
->> <em> Figure 5. Alpha diversity plot with the title. <em/>
->> 
->> The "nrow" option arranges the graphics horizontally.
->> ~~~
->> > plot_richness(physeq = merged_metagenomes,
->>              measures = c("Observed","Chao1","Shannon"),
->>              nrow=3)
->> ~~~
->> {: .language-r}
->>  
->> <a href="{{ page.root }}/fig/03-08-06.png">
->>  <img src="{{ page.root }}/fig/03-08-06.png" alt="" />
->> </a>
->> <em> Figure 6. Alpha diversity plot with the three panels arranged in rows. <em/>
->> 
->> The "sortby" option orders the samples from least to greatest diversity depending on the parameter. In this case, it is ordered by "Shannon" and tells us that the JP4D sample has the lowest diversity and the JP41 sample the highest.
->> ~~~
->> > plot_richness(physeq = merged_metagenomes, 
->>              measures = c("Observed","Chao1","Shannon"),
->>              sortby = "Shannon") 
->> ~~~
->> {: .language-r}
->> 
->> <a href="{{ page.root }}/fig/03-08-07.png">
->>  <img src="{{ page.root }}/fig/03-08-07.png" alt="The same panels as before, but now the samples are arranged horizontally according to the values in the Shannon index panel." />
->> </a>
->> <em> Figure 7. Samples sorted by Shannon in alpha diversity index plots. <em/>
->>
->>
->>  Considering those mentioned above, together with the three graphs, we can say that JP41 and JP4D present a high diversity concerning the JC1A. Moreover, the diversity of the sample JP41 is mainly given by singletons or doubletons. Instead, the diversity of JP4D is given by species in much greater abundance. Although the values of H (Shannon) above three are considered to have a lot of diversity.
->> 
->  
+>
+> **[View Exercise with Solution](.08-Diversity-tackled-with-R-exercises/exercise-2.md)**>  
   
   
 A caution when comparing samples is that differences in some alpha indexes may be the consequence of the difference in the total number 
@@ -452,29 +405,15 @@ In this NMDS plot, each point represents the combined abundance of all its OTUs.
 >     geom_text(mapping = aes(label = Sample), size = 3, vjust = 1.5)   
 > ~~~
 > {: .language-r}
->> ## Solution
->> The flag `color = "Treatment"` applied a color to each sample according to its treatment, in the `plot_ordination` of the object `percentages`.   
->> The `geom_text` instruction added the names of the sample to the graph. This could have added any text, with the instruction `label = Sample` we specified to add the names of the samples as text. With `size` we adjusted the size of the text, and with `vjust` we adjusted the position
->>so the text would not overlap with the dots.    
->> There are three possible treatments, Control mesocosm, Fertilized, and Unfertilized pond.  
->> We do not observe any kind of clustering in these three samples. More data would show if samples with similar treatments are clustered together.   
-> 
+>
+> **[View Exercise with Solution](.08-Diversity-tackled-with-R-exercises/exercise-3.md)**> 
 
   
 > ## Discussion: Indexes of diversity  
 > Why do you think we need different indexes to asses diversity? What index will you use to assess the impact of rare, low-abundance taxa?
 > 
->> ## Solution
->> 
->> It will be difficult (if not impossible) to take two communities and observe the same distribution of all members. This outcome is because 
->> there are a lot of **factors** affecting these lineages. Some of the **environmental factors** are temperature, pH, and nutrient concentration.
->> Also, the interactions of these populations, such as competition, inhibition of other populations, and growth speed,
->> are an important driver of variation (**biotic factor**). A combination of the **factors mentioned above** can interact to maintain some populations with low
->> abundance (**rare taxa**). In order to have 
->> ways to assess hypotheses regarding which of these processes can be affecting the community, we use all these different indexes. Some emphasize the number of 
->> species and other the evenness of the OTUs. 
->> To assess the impact of low abundance lineages, one alpha diversity index widely used is the Chao1 index.
-> 
+>
+> **[View Exercise with Solution](.08-Diversity-tackled-with-R-exercises/discussion-4.md)**> 
 
 
 ---

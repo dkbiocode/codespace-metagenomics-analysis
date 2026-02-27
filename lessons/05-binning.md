@@ -35,11 +35,8 @@ coverage levels and the tetranucleotide frequencies they have.
 > The sequencing center has returned you a file with 18,412 reads. Given that the bacterial genome size range
 >  between 4Mbp and 13Mbp (Mb=10^6 bp) and that the size of the reads in this run is 150bp. With these data, 
 >  how many complete bacterial genomes can you reconstruct?
->> ## Solution
->>
->> None, because 18,412 reads of 150bp give a total count of 2,761,800bp (~2Mbp). Even if no read maps to 
->> the same region, the amount of base pairs is inferior to the size of a bacterial genome.
-> 
+>
+> **[View Exercise with Solution](.05-binning-exercises/discussion-1.md)**> 
 
 
 Let us bin the sample we just assembled. The command for running MaxBin is `run_MaxBin.pl`, and the arguments it needs are the FASTA file of the assembly, the FASTQ with the forward and reverse reads, the output directory, and the name. 
@@ -125,15 +122,8 @@ JP4D.004.fasta	77.6%	5692657	38.9
 > Can we trust the quality of our bins only with the given information? 
 > What else do we want to know about our MAGs to use for further analysis confidently?
 > 
->> ## Solution
->> 
->> **completeness** is fundamental to know which data you are working with. If the MAG is incomplete, 
->> you can hypothesize that if you did not find something, it is because you do not have a complete genome.
->> **Genome size** and **GC content** are like genomic fingerprints of taxa, so you can know if you have the taxa you are looking for.
->> Since we are working with the mixed genomes of a community when we try to separate them with binning, 
->> we want to know if we were able to separate them correctly. So we need to measure **contamination** to 
->> know if we have only one genome in our bin.
-> 
+>
+> **[View Exercise with Solution](.05-binning-exercises/discussion-2.md)**> 
 
 
 ## Quality check 
@@ -195,16 +185,8 @@ The question of how much contamination we can tolerate and how much completeness
 > ~~~
 >  
 > 
->> ## Solution
->>In a terminal that is standing on your local computer, do:
->> ```
->>$ scp dcuser@ec2-18-207-132-236.compute-1.amazonaws.com:/home/dcuser/dc_workshop/mags/CHECKM/quality_JP4D.tsv <the destination directory of your choice>
->> ```
->> 
->>
-> 
-> Then open the table in a spreadsheet and discuss with your team which of the parameters in the table you find useful.
-
+>
+> **[View Exercise with Solution](.05-binning-exercises/exercise-3.md)**
 
 
 ---

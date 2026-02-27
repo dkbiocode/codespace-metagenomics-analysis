@@ -100,14 +100,8 @@ of our experimental design to the metadata we expect to collect and record caref
 > Suppose you want to find the source of a nasty gut infection in people. Which type of sequencing methodology would you choose?  
 > Which type of metadata would be helpful to record?
 > 
->> ## Solution
->> For a first exploration, 16S is a better idea since you could detect known pathogens by knowing the taxons in the community.
->> Nevertheless, if the disease is the consequence of a viral infection, the pathogen can only be discovered with shotgun metagenomics (that was the case of SARS-CoV 2). 
->> Also, metabarcoding does not provide insights into the genetic basis of the pathogenic phenotypes.
->> Metadata will depend on the type of experiment. For this case, some helpful metadata could be sampling methodology, 
->> date, place (country, state, region, city, etc.), patient's sex and age, the anatomical origin of the sample, symptoms, medical history, diet, lifestyle, and environment. 
->> 
->   
+>
+> **[View Exercise with Solution](.01-background-metadata-exercises/discussion-1.md)**>   
 
 
 ## Cuatro Ciénegas  
@@ -147,38 +141,24 @@ changed when the bacterial community underwent the treatment.
 >
 >  2. In the table [samples treatment information](https://github.com/carpentries-incubator/metagenomics/blob/gh-pages/files/Samples_treatment_information.tsv), what was the most critical piece of metadata that the authors took?  
 > 
->> ## Solution
->> A) Metabarcoding. False. With this technique, usually, only one region of the genome is amplified.   
->> B) Shotgun Metagenomics. True. Only shotgun metagenomics could have been used to investigate the total number of tRNA genes.    
->> C) Genomics of axenic cultures. False. Information on the microbial community cannot be fully obtained with axenic cultures.    
->>  
->> The most crucial thing to know about our data is which community was and was not supplemented with fertilizers.  
->> However, any differences in the technical parts of the study, such as the DNA extraction protocol,
->> could have affected the results, so tracking those is also essential.
->> 
-> 
+>
+> **[View Exercise with Solution](.01-background-metadata-exercises/exercise-2.md)**> 
 
 
 > ## Exercise 2: Differentiate between IDs and sample names 
 > 
 > Depending on the database, several IDs can be used for the same sample.
 > Please open the document where the [metadata information is stored](https://github.com/carpentries-incubator/metagenomics/blob/gh-pages/files/Samples_treatment_information.tsv). Here, inspect the IDs and find out which of them correspond to sample	**JP4110514WATERRESIZE**
->> ## Solution
->> ERS1949771	is the SRA ID corresponding to JP4110514WATERRESIZE
->> 
-> 
+>
+> **[View Exercise with Solution](.01-background-metadata-exercises/exercise-3.md)**> 
 
 
 > ## Exercise 3: Discuss the importance of metadata 
 > 
 > Which other information could you recommend to add in the metadata?
 > 
->> ## Solution
->> Metadata will depend on the type of the experiment, but some examples are the properties of the water before 
->> and after fertilization, sampling, and processing methodology, 
->> date and time, place (country, state, region, city, etc.). 
->> 
-> 
+>
+> **[View Exercise with Solution](.01-background-metadata-exercises/exercise-4.md)**> 
 
 
 Throughout the lesson, we will use the first four

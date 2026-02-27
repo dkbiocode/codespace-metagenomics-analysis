@@ -263,19 +263,8 @@ We will take advantage of this information later on in our analyses.
 > group, and use the learned code to find out how many OTUs have been assigned to
 > your chosen phylum and what are the unique names of the genera inside it.
 > がんばって! (ganbatte; *good luck*):
->> ## Solution
->> Change the name of a new phylum wherever needed and the name of the rank we are asking for to get the result.
->> As an example, here is the solution for Proteobacteria:
->> ~~~ 
->> sum(merged_metagenomes@tax_table@.Data[,"Phylum"] == "Proteobacteria")
->> ~~~ 
->> {: .language-r}
->> ~~~
->> unique(merged_metagenomes@tax_table@.Data[merged_metagenomes@tax_table@.Data[,"Phylum"] == "Proteobacteria", "Genus"])
->> ~~~
->> {: .language-r}
->> 
-> 
+>
+> **[View Exercise with Solution](.07-phyloseq-exercises/exercise-1.md)**> 
    
   
 > ## Exercise 2: Searching for the read counts
@@ -284,31 +273,8 @@ We will take advantage of this information later on in our analyses.
 > any species of your interest (one that can be found in the `tax_table`).  
 > **Hint**: Remember that you can access the contents of a data frame with the `["row_name", "column_name"]` syntax.  
 > がんばって! (ganbatte; *good luck*):
->> ## Solution
->> Go to the `tax_table`: 
->>   
->> ~~~ 
->> > View(merged_metagenomes@tax_table@.Data)
->> ~~~ 
->> {: .language-r}
->> Take note of the OTU number for some species:
->>  <a href="{{ page.root }}/fig/03-07-04.png">
->>  <img src="{{ page.root }}/fig/03-07-04.png" alt="The OTU number is in the leftmost space of the table as a row name for the searched species." />
->> </a>
->> <em> Figure 4. The row of the `tax_table` corresponds to the species *Paracoccus zhejiangensis*. <em/>
->>  
->> Search for the row of the `otu_table` with the row name you chose.  
->> ~~~
->> > merged_metagenomes@otu_table@.Data["1077935",]
->> ~~~
->> {: .language-r}
->> ~~~
->> JC1A JP4D JP41 
->>   42  782  257 
->> ~~~
->> {: .language-r}
->> 
-> 
+>
+> **[View Exercise with Solution](.07-phyloseq-exercises/exercise-2.md)**> 
 
 
 ---

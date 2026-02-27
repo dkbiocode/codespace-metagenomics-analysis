@@ -194,21 +194,8 @@ sample ID. If we need the files out of their folder, it is beneficial to rename 
 > C) `$ for name in *; do mv $name JC1A_; done`      
 > D) `$ for name in *; do mv $name JC1A_$name; done`      
 >    
->> ## Solution
->>
->>  A)  No, this option is going to give you as error `mv: target 'JC1A_' is not a directory` 
->>  This is because `mv` has two options:  
->>  `mv file_1 file_2`  
->>  `mv file_1, file_2, ..... file_n directory`   
->>  When a list of files is passed to `mv`, the `mv` expects the last parameters to be a directory.  
->>  Here, `*` gives you a list of all the files in the directory. The last parameter is `JC1A_` (which `mv` expects to be a directory).   
->>  B)  No. Again, every file is sent to the same file.  
->>  C)  No, every file is sent to the same file JC1A_  
->>  D)  Yes, this is one of the possible solutions.  
->> 
->> ¿Do you have another solution?
->> 
-> 
+>
+> **[View Exercise with Solution](.04-assembly-exercises/exercise-1.md)**> 
 
 
 > ## Exercise 2: Compare two fasta files from the assembly output 
@@ -217,18 +204,8 @@ sample ID. If we need the files out of their folder, it is beneficial to rename 
 > Do they have the same number of lines? Why?  
 > **Hint**: You can use the following commands: `grep`, `|` (pipe), `-l`, `">"`, `wc`, `filename.fasta`
 > 
->> ## Solution
->> 
->> ~~~
->> $ grep '>' contigs.fasta | wc -l
->> $ grep '>' scaffolds.fasta | wc -l
->> ~~~
->> 
->>
->> A contig is created from reads and then a scaffold from a group of contigs, so we expect fewer lines in the `scaffolds.fasta ` .
->> 
-> 
-> 
+>
+> **[View Exercise with Solution](.04-assembly-exercises/exercise-2.md)**> 
 
 
 > ## Quality of assemblies
