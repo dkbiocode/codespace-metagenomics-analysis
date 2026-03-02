@@ -37,8 +37,8 @@ breaks the query sequence (reads/contigs) into pieces of length k,
 looks for where these are placed within the tree and make the 
 classification with the most probable position.  
 
-<a href="{{ page.root }}/fig/03-06-01.png">
-  <img src="{{ page.root }}/fig/03-06-01.png" alt="Diagram of a taxonomic tree with four levels of nodes, some nodes have a number from 1 to 3, and some do not. From the most recent nodes, one has a three, and its parent nodes do not have numbers. This node with a three is selected." />
+<a href="../fig/03-06-01.png">
+  <img src="../fig/03-06-01.png" alt="Diagram of a taxonomic tree with four levels of nodes, some nodes have a number from 1 to 3, and some do not. From the most recent nodes, one has a three, and its parent nodes do not have numbers. This node with a three is selected." />
 </a>
 <em> Figure 1. Lowest common ancestor assignment example.<em/>
   
@@ -50,8 +50,8 @@ When you do the taxonomic assignment of metagenomes, a key result is the abundan
 abundances along the metagenomics workflow, shown in the figure, and that because of them, we may not be obtaining the actual abundance of 
 the organisms in the sample.
 
-<a href="{{ page.root }}/fig/03-06-02.png">
-  <img src="{{ page.root }}/fig/03-06-02.png" alt="Flow diagram that shows how the initial composition of 33% for each of the three taxa in the sample ends up being 4%, 72%, and 24% after the biases imposed by the extraction, PCR, sequencing and bioinformatics steps." />
+<a href="../fig/03-06-02.png">
+  <img src="../fig/03-06-02.png" alt="Flow diagram that shows how the initial composition of 33% for each of the three taxa in the sample ends up being 4%, 72%, and 24% after the biases imposed by the extraction, PCR, sequencing and bioinformatics steps." />
 </a>
 <em>Figure 2. Abundance biases during a metagenomics protocol. <em/>
 
@@ -73,7 +73,6 @@ environment**, let us have a look at `kraken2` help.
 ~~~  
 $ kraken2  --help
 ~~~ 
-{: .language-bash}
 
 ~~~
 Need to specify input filenames!
@@ -129,7 +128,7 @@ Unfortunately, even the smallest Kraken database Minikraken, which needs 8Gb of 
 ~~~
 $ free -h
 ~~~
-{: .language-bash}
+
 
 ~~~
               total        used        free      shared  buff/cache   available
@@ -151,7 +150,6 @@ To run kraken2, we would use a command like this:
 $ mkdir TAXONOMY_READS
 $ kraken2 --db kraken-db --threads 8 --paired JP4D_R1.trim.fastq.gz JP4D_R2.trim.fastq.gz --output TAXONOMY_READS/JP4D.kraken --report TAXONOMY_READS/JP4D.report
 ~~~
-{: .language-bash}
 
 Since we cannot run `kraken2` here, we precomputed its results on a server, i.e., a more powerful machine. 
 On the server we ran `kraken2` and obtained `JP4D-kraken.kraken` and `JP4D.report`.
@@ -160,7 +158,6 @@ Let us look at the precomputed outputs of `kraken2` for our JP4D reads.
 ~~~
 head ~/dc_workshop/taxonomy/JP4D.kraken  
 ~~~
-{: .language-bash}
 
 ~~~
 U	MISEQ-LAB244-W7:156:000000000-A80CV:1:1101:19691:2037	0	250|251	0:216 |:| 0:217
@@ -179,26 +176,21 @@ C	MISEQ-LAB244-W7:156:000000000-A80CV:1:1101:19558:2111	119045	251|133	0:18 1224
   This information may be confusing. Let us take out our cheatsheet to understand some of its components:
 
 
-|------------------------------+------------------------------------------------------------------------------|  
-| Column example                      |                              Description                                     |  
-|------------------------------+------------------------------------------------------------------------------|  
-|   C                          |  Classified or unclassified                                                  |  
-|------------------------------+------------------------------------------------------------------------------|  
-|   MISEQ-LAB244-W7:156:000000000-A80CV:1:1101:15697:2078               |FASTA header of the sequence         |   
-|------------------------------+------------------------------------------------------------------------------|  
-|  2219696                     | Tax ID                                                                       |  
-|------------------------------+------------------------------------------------------------------------------|  
-|    250:120                   |Read length                                                                   |   
-|------------------------------+------------------------------------------------------------------------------|  
-|  0:28 350054:5 1224:2 0:1 2:5 0:77 2219696:5 0:93 379:4 0:82|kmers hit to a taxonomic ID *e.g.,* tax ID 350054 has five hits, tax ID 1224 has two hits, etc. |   
-|-------------------+-----------------------------------------------------------------------------------------|  
+| Column example               |                              Description                                     |  
+|------------------------------|------------------------------------------------------------------------------|  
+|   C                                                     |  Classified or unclassified                                                  |  
+|   MISEQ-LAB244-W7:156:000000000-A80CV:1:1101:15697:2078 | FASTA header of the sequence         |    
+|    2219696                                              | Tax ID                                                                       |  
+|    250:120                                              | Read length                                                                   |   
+|  0:28 350054:5 1224:2 0:1 2:5 0:77 2219696:5 0:93 379:4 0:82 | kmers hit to a taxonomic ID *e.g.,* tax ID 350054 has five hits, tax ID 1224 has two hits, etc. |   
 
 The Kraken file could be more readable. So let us look at the report file:
   
 ~~~
 head ~/dc_workshop/taxonomy/JP4D.report
 ~~~
-{: .language-bash} 
+ 
+ 
 ~~~
  78.13	587119	587119	U	0	unclassified
  21.87	164308	1166	R	1	root
@@ -213,21 +205,15 @@ head ~/dc_workshop/taxonomy/JP4D.report
 ~~~
   
 
-|------------------------------+------------------------------------------------------------------------------|   
-| Column example  |                              Description                                     |    
-|------------------------------+------------------------------------------------------------------------------|  
-| 78.13 |  Percentage of reads covered by the clade rooted at this taxon                                                  |  
-|------------------------------+------------------------------------------------------------------------------|  
-| 587119 |   Number of reads covered by the clade rooted at this taxon
-|------------------------------+------------------------------------------------------------------------------|  
-| 587119  |   Number of reads assigned directly to this taxon                                                                    |  
-|------------------------------+------------------------------------------------------------------------------|  
-| U | A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply '-'.                                                                  |   
-|------------------------------+------------------------------------------------------------------------------|  
-| 0 |NCBI taxonomy ID |   
-|-------------------+-----------------------------------------------------------------------------------------| 
-| unclassified | Indented scientific name |  
-|-------------------+-----------------------------------------------------------------------------------------|    
+
+| Column example  |                              Description                           |    
+|------------------------------|-------------------------------------------------------|   
+| 78.13           |  Percentage of reads covered by the clade rooted at this taxon     |    
+| 587119          |   Number of reads covered by the clade rooted at this taxon        |
+| 587119          |   Number of reads assigned directly to this taxon                  |  
+| U               | A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply |   
+| 0               | NCBI taxonomy ID                                                   |   
+| unclassified    | Indented scientific name                                           |  
   
 ### Taxonomic assignment of the contigs of a MAG
  
@@ -310,20 +296,17 @@ With Krona, we will explore the taxonomy of the JP4D.001 MAG.
 ~~~
 $ cd ~/dc_workshop/taxonomy/mags_taxonomy
 ~~~
-{: .language-bash}  
 
 Krona is called with the `ktImportTaxonomy` command that needs an input and an output file.  
 In our case, we will create the input file with columns three and four from `JP4D.001.kraken` file.     
 ~~~
 $ cut -f2,3 JP4D.001.kraken > JP4D.001.krona.input
 ~~~
-{: .language-bash}  
 
 Now we call Krona in our `JP4D.001.krona.input` file and save results in `JP4D.001.krona.out.html`.  
 ~~~
 $ ktImportTaxonomy JP4D.001.krona.input -o JP4D.001.krona.out.html
 ~~~
-{: .language-bash}  
 
 ~~~
 Loading taxonomy...
@@ -342,8 +325,8 @@ $ scp dcuser@ec2-3-235-238-92.compute-1.amazonaws.com:~/dc_workshop/taxonomy/JP4
 {: .language-bash}  
 You will see a page like this:
 
-<a href="{{ page.root }}/fig/03-06-03.png">
-  <img src="{{ page.root }}/fig/03-06-03.png" alt="Krona displays a circled-shape bacterial taxonomy plot with abundance percentages of each taxon" />
+<a href="../fig/03-06-03.png">
+  <img src="../fig/03-06-03.png" alt="Krona displays a circled-shape bacterial taxonomy plot with abundance percentages of each taxon" />
 </a>
 
 > ## Exercise 1: Exploring Krona visualization
@@ -370,37 +353,36 @@ machine, let us use the `scp` command.
 ~~~
 $ scp dcuser@ec2-3-235-238-92.compute-1.amazonaws.com:~/dc_workshop/taxonomy/*report . 
 ~~~
-{: .language-bash}
 
 We go to the [Pavian demo WebSite](https://fbreitwieser.shinyapps.io/pavian/), 
 click on Browse, and choose our reports. You need to select both reports at the same time.
 
-<a href="{{ page.root }}/fig/03-06-04.png">
-  <img src="{{ page.root }}/fig/03-06-04.png" alt="Pavian website showing the upload of two reports" />
+<a href="../fig/03-06-04.png">
+  <img src="../fig/03-06-04.png" alt="Pavian website showing the upload of two reports" />
 </a>
 
 We click on the Results Overview tab.
 
-<a href="{{ page.root }}/fig/03-06-05.png">
-  <img src="{{ page.root }}/fig/03-06-05.png" alt="Results Overview tab of the Pavian website where it shows the number of reads classified to several categories for the two samples" />
+<a href="../fig/03-06-05.png">
+  <img src="../fig/03-06-05.png" alt="Results Overview tab of the Pavian website where it shows the number of reads classified to several categories for the two samples" />
 </a>
 
 We click on the Sample tab.
 
-<a href="{{ page.root }}/fig/03-06-06.png">
-  <img src="{{ page.root }}/fig/03-06-06.png" alt="Sankey type visualization that shows the abundance of each taxonomic label in a tree-like manner" />
+<a href="../fig/03-06-06.png">
+  <img src="../fig/03-06-06.png" alt="Sankey type visualization that shows the abundance of each taxonomic label in a tree-like manner" />
 </a>
 
 We can look at the abundance of a specific taxon by clicking on it.
 
-<a href="{{ page.root }}/fig/03-06-07.png">
-  <img src="{{ page.root }}/fig/03-06-07.png" alt="A bar chart of the abundance of reads of the two samples, showing a segment for the read identified at the specific taxon and another segment for the number of reads identifies at children of the specified taxon" />
+<a href="../fig/03-06-07.png">
+  <img src="../fig/03-06-07.png" alt="A bar chart of the abundance of reads of the two samples, showing a segment for the read identified at the specific taxon and another segment for the number of reads identifies at children of the specified taxon" />
 </a>
 
 We can look at a comparison of both our samples in the Comparison tab. 
 
-<a href="{{ page.root }}/fig/03-06-08.png">
-  <img src="{{ page.root }}/fig/03-06-08.png" alt="A table of the same format as the Kraken report but for both samples at once." />
+<a href="../fig/03-06-08.png">
+  <img src="../fig/03-06-08.png" alt="A table of the same format as the Kraken report but for both samples at once." />
 </a>
 
 > ## Discussion: Unclassified reads

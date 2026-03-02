@@ -105,7 +105,6 @@ Phyloseq is a library with tools to analyze and plot your metagenomics samples' 
 
 > install.packages(c("RColorBrewer", "patchwork")) #install patchwork to chart publication-quality plots and readr to read rectangular datasets.
 ~~~
-{: .language-r}  
 
 Once the libraries are installed, we must make them available for this R session. Now load the libraries (a process needed every time we begin a new work session in R):
 
@@ -115,7 +114,6 @@ Once the libraries are installed, we must make them available for this R session
 > library("RColorBrewer")
 > library("patchwork")
 ~~~
-{: .language-r}
 
   
 ### Creating the phyloseq object
@@ -124,19 +122,17 @@ First, we tell R in which directory we are working.
 ~~~
 > setwd("~/dc_workshop/taxonomy/")
 ~~~
-{: .language-r}
 
 Let us proceed to create the phyloseq object with the `import_biom` command:
 ~~~
 > merged_metagenomes <- import_biom("cuatroc.biom")
 ~~~
-{: .language-r}
 
 Now, we can inspect the result by asking the class of the object created and doing a close inspection of some of its content:
 ~~~
 > class(merged_metagenomes)
 ~~~
-{: .language-r}
+
 ~~~
 [1] "phyloseq"
 attr("package")
@@ -156,10 +152,9 @@ will be the one chosen in both cases. Let us see what is inside our `tax_table`:
 ~~~
 > View(merged_metagenomes@tax_table@.Data)
 ~~~
-{: .language-r}
 
-<a href="{{ page.root }}/fig/03-07-01.png">
-  <img src="{{ page.root }}/fig/03-07-01.png" alt="A table where the taxonomic 
+<a href="../fig/03-07-01.png">
+  <img src="../fig/03-07-01.png" alt="A table where the taxonomic 
   identification information of all OTUs is displayed. Each row represents one 
   OTU and the columns represent its identification at different levels in the taxonomic classification ranks, begging with Kingdom until we reach Species 
   in the seventh column." />
@@ -180,10 +175,9 @@ To remove unnecessary characters in `.Data` (matrix), we will use the command `s
 > merged_metagenomes@tax_table@.Data <- substring(merged_metagenomes@tax_table@.Data, 4)
 > colnames(merged_metagenomes@tax_table@.Data)<- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
 ~~~
-{: .language-r}
 
-<a href="{{ page.root }}/fig/03-07-02.png">
-  <img src="{{ page.root }}/fig/03-07-02.png" alt="The same table we saw in Figure 3 but with informative names in each of the columns. Now, we can see which of 
+<a href="../fig/03-07-02.png">
+  <img src="../fig/03-07-02.png" alt="The same table we saw in Figure 3 but with informative names in each of the columns. Now, we can see which of 
   the columns are associated with which taxonomic classification rank" />
 </a>
 <em> Figure 2. Table of the taxonomic labels from our `merged_metagenomes` object with corrections. <em/>
@@ -193,7 +187,7 @@ we obtain from the following code:
 ~~~
 > unique(merged_metagenomes@tax_table@.Data[,"Phylum"])
 ~~~
-{: .language-r}
+
 ~~~
  [1] "Proteobacteria"              "Actinobacteria"              "Firmicutes"                 
  [4] "Cyanobacteria"               "Deinococcus-Thermus"         "Chloroflexi"                
@@ -215,7 +209,7 @@ Firmicutes?. Let´s use the command `sum()` to ask R:
 ~~~
 > sum(merged_metagenomes@tax_table@.Data[,"Phylum"] == "Firmicutes")
 ~~~
-{: .language-r}
+
 ~~~
 [1] 580
 ~~~
@@ -225,7 +219,7 @@ Now, to know for that phylum in particular which taxa there are in a certain ran
 ~~~
 > unique(merged_metagenomes@tax_table@.Data[merged_metagenomes@tax_table@.Data[,"Phylum"] == "Firmicutes", "Class"])
 ~~~
-{: .language-r}
+
 ~~~
 [1] "Bacilli"          "Clostridia"       "Negativicutes"    "Limnochordia"     "Erysipelotrichia" "Tissierellia" 
 ~~~
@@ -238,10 +232,10 @@ Until now, we have looked at the part of the phyloseq object that stores the inf
 ~~~
 > View(merged_metagenomes@otu_table@.Data)
 ~~~
-{: .language-r}
 
-<a href="{{ page.root }}/fig/03-07-03.png">
-  <img src="{{ page.root }}/fig/03-07-03.png" alt="A table where the abundance of each OTU in each sample is shown. Each row represents one 
+
+<a href="../fig/03-07-03.png">
+  <img src="../fig/03-07-03.png" alt="A table where the abundance of each OTU in each sample is shown. Each row represents one 
   OTU and the columns represent the samples. In the intersection, a number indicates how many sequenced reads of that OTU are present in that sample." />
 </a>
 <em> Figure 3. Table of the abundance of reads in the `merged_metagenomes` object. <em/>

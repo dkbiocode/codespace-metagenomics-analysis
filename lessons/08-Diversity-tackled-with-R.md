@@ -27,8 +27,8 @@ Here we will discuss the two most used diversity metrics, α diversity (within o
 - α Diversity: Can be represented only as richness (*, i.e.,* the number of different species in an environment), or it can be measured considering the
  abundance of the species in the environment as well (*i.e.,* the number of individuals of each species inside the environment). To measure α-diversity, we use indexes such as Shannon's, Simpson's, Chao1, etc. 
 
-<a href="{{ page.root }}/fig/03-08-01.png">
-  <img src="{{ page.root }}/fig/03-08-01.png" alt="Alpha diversity diagram: In lake A, we have three fishes, each one of a different species. On lake B, we have two fish, each of a different species. Moreover, we have four fish in lake C, each of different species." />
+<a href="../fig/03-08-01.png">
+  <img src="../fig/03-08-01.png" alt="Alpha diversity diagram: In lake A, we have three fishes, each one of a different species. On lake B, we have two fish, each of a different species. Moreover, we have four fish in lake C, each of different species." />
 </a>
 <em> Figure 1. Alpha diversity is calculated according to fish diversity in a pond. Here, alpha diversity is represented in its simplest way: Richness. <em/>
  
@@ -47,8 +47,8 @@ our reference site. In the end, the β diversity between Lake A and Lake B is
 (3-2) + (3-2) = 2. This process can be repeated, taking each pair of lakes as the 
 focused sites.
 
-<a href="{{ page.root }}/fig/03-08-02.png">
-  <img src="{{ page.root }}/fig/03-08-02.png" alt=" Alpha and Beta diversity diagram: Each Lake has a different number of species, and each species has a different number of fish individuals. Both metrics are taken into account to measure alfa and beta diversity." />
+<a href="../fig/03-08-02.png">
+  <img src="../fig/03-08-02.png" alt=" Alpha and Beta diversity diagram: Each Lake has a different number of species, and each species has a different number of fish individuals. Both metrics are taken into account to measure alfa and beta diversity." />
 </a>
 <em> Figure 2. Alpha and beta diversity indexes of fishes in a pond.<em/>
 
@@ -57,15 +57,13 @@ the concept of diversity.
 
 ## α diversity  
 
-|-------------------+-----------------------------------------------------------------------------------------------------------------|
+
 | Diversity Indices |                             Description                                                                         |
-|-------------------+-----------------------------------------------------------------------------------------------------------------|
+|-------------------|-----------------------------------------------------------------------------------------------------------------|
 |      Shannon (H)  | Estimation of species richness and species evenness. More weight on richness.                                   |
-|-------------------+-----------------------------------------------------------------------------------------------------------------|
 |    Simpson's (D)  |Estimation of species richness and species evenness. More weight on evenness.                                    |
-|-------------------+-----------------------------------------------------------------------------------------------------------------|
 |     Chao1         | Abundance based on species represented by a single individual (singletons) and two individuals (doubletons).    |
-|-------------------+-----------------------------------------------------------------------------------------------------------------|   
+|-------------------|-----------------------------------------------------------------------------------------------------------------|   
  
 
 - Shannon (H): 
@@ -121,8 +119,8 @@ There are different ways to plot and show the results of such analysis. Among ot
 
 > ## Exercise 1: Simple measure of alpha and beta diversities.
 > In the next picture, there are two lakes with different fish species:
-> <a href="{{ page.root }}/fig/03-08-03.png">
->   <img src="{{ page.root }}/fig/03-08-03.png" alt="In lake A, we have four different species, two of these species have three specimens each one. This Lake also has two specimens of a third species and only one specimen of a fourth specie. We got nine fish in total. Lake B has only three different species, the most populated species is also present in lake A and has five specimens, and we have only one specimen of each of the other two species. We got seven species total in lake B " />
+> <a href="../fig/03-08-03.png">
+>   <img src="../fig/03-08-03.png" alt="In lake A, we have four different species, two of these species have three specimens each one. This Lake also has two specimens of a third species and only one specimen of a fourth specie. We got nine fish in total. Lake B has only three different species, the most populated species is also present in lake A and has five specimens, and we have only one specimen of each of the other two species. We got seven species total in lake B " />
 >  </a> 
 >  <em> Figure 3. <em/> 
 >  
@@ -146,7 +144,7 @@ of all bacterial groups and save them.
 ~~~
 > merged_metagenomes <- subset_taxa(merged_metagenomes, Kingdom == "Bacteria")
 ~~~
-{: .language-r}
+
 
 Now let us look at some statistics of our metagenomes.
 By the output of the `sample_sums()` command, we can see how many reads there are
@@ -156,7 +154,7 @@ the largest with 149590 reads.
 ~~~
 > merged_metagenomes
 ~~~
-{: .language-r}
+
 ~~~
 phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 4024 taxa and 3 samples ]
@@ -166,7 +164,7 @@ tax_table()   Taxonomy Table:    [ 4024 taxa by 7 taxonomic ranks ]
 ~~~
 > sample_sums(merged_metagenomes)
 ~~~
-{: .language-r}
+
 ~~~
   JC1A   JP4D   JP41 
  18412 149590  76589 
@@ -180,7 +178,7 @@ in sample JP4D, an OTU occurs in 37.17 reads.
 ~~~
 > summary(merged_metagenomes@otu_table@.Data)
 ~~~
-{: .language-r}
+
 ~~~
       JC1A              JP4D              JP41        
  Min.   :  0.000   Min.   :   0.00   Min.   :   0.00  
@@ -200,10 +198,10 @@ graph created using Phyloseq:
 > plot_richness(physeq = merged_metagenomes, 
               measures = c("Observed","Chao1","Shannon")) 
 ~~~
-{: .language-r}
 
-<a href="{{ page.root }}/fig/03-08-04.png">
-  <img src="{{ page.root }}/fig/03-08-04.png" alt="A figure divided in three 
+
+<a href="../fig/03-08-04.png">
+  <img src="../fig/03-08-04.png" alt="A figure divided in three 
   panels. Each of these panels represents a different alpha diversity index. 
   Inside this section, each point represents the value assigned on this index to 
   the three different samples. The different indexes give 
@@ -243,7 +241,7 @@ non-identified reads. Marked as blank (i.e.,"") on the different taxonomic level
 ~~~
 > summary(merged_metagenomes@tax_table@.Data== "")
 ~~~
-{: .language-r}
+
 ~~~
   Kingdom          Phylum          Class           Order           Family          Genus          Species       
  Mode :logical   Mode :logical   Mode :logical   Mode :logical   Mode :logical   Mode :logical   Mode :logical  
@@ -260,7 +258,7 @@ we will get rid of the ones at the genus level to proceed with the analysis:
 > merged_metagenomes <- subset_taxa(merged_metagenomes, Genus != "") #Only genus that are no blank
 > summary(merged_metagenomes@tax_table@.Data== "")
 ~~~
-{: .language-r}
+
 ~~~
   Kingdom          Phylum          Class           Order           Family          Genus          Species       
  Mode :logical   Mode :logical   Mode :logical   Mode :logical   Mode :logical   Mode :logical   Mode :logical  
@@ -276,7 +274,7 @@ Right now, our OTU table looks like this:
 ~~~
 > head(merged_metagenomes@otu_table@.Data)
 ~~~
-{: .language-r}
+
 ~~~
         JC1A JP4D JP41
 1060      32  420   84
@@ -293,7 +291,7 @@ To make this transformation to percentages, we will take advantage of a function
 > percentages <- transform_sample_counts(merged_metagenomes, function(x) x*100 / sum(x) )
 > head(percentages@otu_table@.Data)
 ~~~
-{: .language-r}
+
 
 ~~~
              JC1A      JP4D      JP41
@@ -316,7 +314,7 @@ we can display all the possible distance metrics that Phyloseq can use:
 ~~~
 > distanceMethodList
 ~~~
-{: .language-r}
+
 ~~~
 $UniFrac
 [1] "unifrac"  "wunifrac"
@@ -366,7 +364,7 @@ the pairwise dissimilarity between objects in a low-dimensional space, in this c
 > meta_ord <- ordinate(physeq = percentages, method = "NMDS", 
                      distance = "bray")
 ~~~
-{: .language-r}
+
 
 If you get some warning messages after running this script, fear not. It is because we only have three samples.
 Few samples make the algorithm warn about the lack of difficulty in generating the distance 
@@ -376,10 +374,10 @@ By now, we just need the command `plot_ordination()` to see the results from our
 ~~~
 > plot_ordination(physeq = percentages, ordination = meta_ord)
 ~~~
-{: .language-r}  
+  
 
-<a href="{{ page.root }}/fig/03-08-08.png">
-  <img src="{{ page.root }}/fig/03-08-08.png" alt="Plot with NMDS1 as a label in x-axis that goes from -0.4 to 0.2 and NMDS2 in y-axis that goes from -0.2 to 0.1. The plot has three dots that are not clustered in any way." />
+<a href="../fig/03-08-08.png">
+  <img src="../fig/03-08-08.png" alt="Plot with NMDS1 as a label in x-axis that goes from -0.4 to 0.2 and NMDS2 in y-axis that goes from -0.2 to 0.1. The plot has three dots that are not clustered in any way." />
 </a>
 <em> Figure 8. Beta diversity with NMDS of our three samples. <em/>
   
@@ -394,8 +392,8 @@ In this NMDS plot, each point represents the combined abundance of all its OTUs.
 > 2) What did the instruction `geom_text` do?   
 > 3) What other difference do you notice with our previous graph?  
 > 4) Do you see some clustering of the samples according to their treatment?   
-><a href="{{ page.root }}/fig/03-08-09.png">
-> <img src="{{ page.root }}/fig/03-08-09.png" alt="The distance between the three samples, JC1A, JP4D and JP41 is shown in a plane. Each sample has a legend and a color. The color is according to the metadata treatment. There are three possible treatments in the legend: Control mesocosm, Fertilized pond, and Unenriched pond" />
+><a href="../fig/03-08-09.png">
+> <img src="../fig/03-08-09.png" alt="The distance between the three samples, JC1A, JP4D and JP41 is shown in a plane. Each sample has a legend and a color. The color is according to the metadata treatment. There are three possible treatments in the legend: Control mesocosm, Fertilized pond, and Unenriched pond" />
 > ~~~
 > metadata_cuatroc <- data.frame(Sample=c("JC1A", "JP4D", "JP41"), Treatment=c("Control mesocosm", "Fertilized pond", "Unenriched pond")) # Making dataframe with metadata  
 > rownames(metadata_cuatroc) <- metadata_cuatroc$Sample # Using sample names as row names  
@@ -404,7 +402,7 @@ In this NMDS plot, each point represents the combined abundance of all its OTUs.
 > plot_ordination(physeq = percentages, ordination = meta_ord, color = "Treatment") + # Plotting beta diversity.  
 >     geom_text(mapping = aes(label = Sample), size = 3, vjust = 1.5)   
 > ~~~
-> {: .language-r}
+> 
 >
 > **[View Exercise with Solution](.08-Diversity-tackled-with-R-exercises/exercise-3.md)**> 
 

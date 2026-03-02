@@ -27,10 +27,10 @@ we will use the function `tax_glom()`.
 > percentages_glom <- tax_glom(percentages, taxrank = 'Phylum')
 > View(percentages_glom@tax_table@.Data)
 ~~~
-{: .language-r}  
+  
 
-<a href="{{ page.root }}/fig/03-09-01.png">
-  <img src="{{ page.root }}/fig/03-09-01.png" alt="Table containing the 
+<a href="../fig/03-09-01.png">
+  <img src="../fig/03-09-01.png" alt="Table containing the 
   taxonomic information of each of the OTUs inside the three samples. Here, 
   we can see only the Phylum column has information, leaving the other 
   taxonomic levels blank." />
@@ -43,7 +43,7 @@ to manipulate them with packages like `ggplot2` and `vegan`.
 > percentages_df <- psmelt(percentages_glom)
 > str(percentages_df)
 ~~~
-{: .language-r}
+
 ~~~
 'data.frame': 99 obs. of  5 variables:
  $ OTU      : chr  "1063" "1063" "1063" "2350" ...
@@ -60,7 +60,7 @@ Now, let's create another data frame with the original data. This structure will
 > absolute_df <- psmelt(absolute_glom)
 > str(absolute_df)
 ~~~
-{: .language-r}
+
 ~~~
 'data.frame': 99 obs. of  5 variables:
  $ OTU      : chr  "1063" "1063" "2350" "1063" ...
@@ -78,7 +78,7 @@ We will create a color palette. With `colorRampPalette`, we will choose eight co
 > absolute_df$Phylum <- as.factor(absolute_df$Phylum)
 > phylum_colors_abs<- colorRampPalette(brewer.pal(8,"Dark2")) (length(levels(absolute_df$Phylum)))
 ~~~
-{: .language-r}
+
                       
 Now, let´s create the figure for the data with absolute abundances (*, i.e.,* `absolute_plot` object)
 ~~~
@@ -86,7 +86,7 @@ Now, let´s create the figure for the data with absolute abundances (*, i.e.,* `
     geom_bar(aes(), stat="identity", position="stack")+
     scale_fill_manual(values = phylum_colors_abs)
 ~~~
-{: .language-r}
+
 With the `position="stack"` command, we are telling the `ggplot` function that the values must stack each other for each sample. In this way, we will 
 have all of our different categories (OTUs) stacked in one bar and not each in a separate one. 
 For more info [position_stack](https://ggplot2.tidyverse.org/reference/position_stack.html) 
@@ -100,10 +100,10 @@ Next, we will create the figure for the representation of the relative abundance
     scale_fill_manual(values = phylum_colors_rel)
 > absolute_plot | relative_plot
 ~~~
-{: .language-r}
 
-<a href="{{ page.root }}/fig/03-09-02.png">
-  <img src="{{ page.root }}/fig/03-09-02.png" alt="A two-part plot contrasting 
+
+<a href="../fig/03-09-02.png">
+  <img src="../fig/03-09-02.png" alt="A two-part plot contrasting 
   the absolute versus the relative abundance of the three samples. On the right 
   side, we can see how each of the bars has its own height, making it difficult 
   to compare the information between samples. The right side shows 
@@ -122,7 +122,7 @@ the identification of the OTUs whose relative abundance is less than 0.2%:
 > percentages_df$Phylum[percentages_df$Abundance < 0.5] <- "Phyla < 0.5% abund."
 > unique(percentages_df$Phylum)
 ~~~
-{: .language-r}
+
 ~~~
 [1] "Proteobacteria"    "Bacteroidetes"     "Actinobacteria"    "Firmicutes"        "Cyanobacteria"    
 [6] "Planctomycetes"    "Verrucomicrobia"   "Phyla < 0.5 abund"
@@ -139,10 +139,10 @@ Let's ask R to display the figures again by re-running our code:
 > absolute_plot | relative_plot
 
 ~~~
-{: .language-r}
 
-<a href="{{ page.root }}/fig/03-09-03.png">
-  <img src="{{ page.root }}/fig/03-09-03.png" alt="A new two-part plot with 
+
+<a href="../fig/03-09-03.png">
+  <img src="../fig/03-09-03.png" alt="A new two-part plot with 
   a reassignment of the low-abundant taxa on the right side. Compared to the 
   left legend, the one in the right has fewer groups because of the process of 
   reassigning the taxa with an abundance lower than 0.5 % to just one 
@@ -163,7 +163,7 @@ and arbitrary decision, but who does not feel attracted to these incredible micr
 > cyanos <- subset_taxa(merged_metagenomes, Phylum == "Cyanobacteria")
 > unique(cyanos@tax_table@.Data[,2])
 ~~~
-{: .language-r}
+
 ~~~
 [1] "Cyanobacteria"
 ~~~
@@ -183,10 +183,10 @@ information; and plotting**:
     scale_fill_manual(values = genus_colors_cyanos)
 > plot_cyanos
 ~~~
-{: .language-r} 
+ 
 
-<a href="{{ page.root }}/fig/03-09-05.png">
-  <img src="{{ page.root }}/fig/03-09-05.png" alt="A new plot with three bars 
+<a href="../fig/03-09-05.png">
+  <img src="../fig/03-09-05.png" alt="A new plot with three bars 
   representing the absolute abundance of Cyanobacteria in each of the samples. 
   Each of the colors represents a Genus. Because we see relative 
   abundances, all the bars have the same height." />
@@ -238,8 +238,8 @@ information; and plotting**:
 >>  
 >>  `absolute_plot | relative_plot`
 >> 
->> <a href="{{ page.root }}/fig/03-09-04.png">
->>   <img src="{{ page.root }}/fig/03-09-04.png" alt="New reassignment to the low abundant taxa on the left part of the plot. A new class has been created that contains the taxa with less than 300 reads" />
+>> <a href="../fig/03-09-04.png">
+>>   <img src="../fig/03-09-04.png" alt="New reassignment to the low abundant taxa on the left part of the plot. A new class has been created that contains the taxa with less than 300 reads" />
 >> </a>
 > 
  

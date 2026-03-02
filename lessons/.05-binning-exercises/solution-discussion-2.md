@@ -1,6 +1,6 @@
 # Solution: Discussion: The quality of MAGs
 
-[← Back to Exercise](./discussion-2.md)
+[← Back to Discussion](./discussion-2.md)
 
 > **completeness** is fundamental to know which data you are working with. If the MAG is incomplete, 
 > you can hypothesize that if you did not find something, it is because you do not have a complete genome.

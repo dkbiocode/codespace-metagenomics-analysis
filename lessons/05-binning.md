@@ -72,7 +72,7 @@ We will perform the binning process with the other sample from the same study th
 ~~~
 $ cd ~/dc_workshop/mags/
 $ mkdir MAXBIN
-$ run_MaxBin.pl -thread 8 -contig JP4D_contigs.fasta -reads ../data/trimmed_fastq/JP4D_R1.trim.fastq.gz -reads2 ../data/trimmed_fastq/JP4D_R2.trim.fastq.gz -out MAXBIN/JP4D
+$ run_MaxBin.pl -thread 4 -contig JP4D_contigs.fasta -reads ../data/trimmed_fastq/JP4D_R1.trim.fastq.gz -reads2 ../data/trimmed_fastq/JP4D_R2.trim.fastq.gz -out MAXBIN/JP4D
 ~~~
   
 It will take a few minutes to run. Moreover, it will finish with an output like this:
@@ -123,7 +123,7 @@ JP4D.004.fasta	77.6%	5692657	38.9
 > What else do we want to know about our MAGs to use for further analysis confidently?
 > 
 >
-> **[View Exercise with Solution](.05-binning-exercises/discussion-2.md)**> 
+> **[View Discussion with Solution](.05-binning-exercises/discussion-2.md)**> 
 
 
 ## Quality check 
