@@ -64,7 +64,7 @@ jobs:
       - name: Test image
         run: |
           docker run --rm ghcr.io/${{ github.repository_owner }}/metagenomics-codespace:latest \
-            R -e "library(phyloseq); cat('✅ phyloseq test passed!\n')"
+            bash -c "source /etc/bash.bashrc && fastqc --version && echo '✅ Tools test passed!'"
 
       - name: Image details
         run: |

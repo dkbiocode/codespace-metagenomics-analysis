@@ -1,62 +1,36 @@
 {
-  "name": "Metagenomics Analysis (Pre-built Image)",
+  "name": "Metagenomics Analysis (Optimized)",
 
-  // Use pre-built image from GitHub Container Registry
-  // This eliminates the 10-15 minute setup.sh installation
+  // Use pre-built image with tools already installed
+  // Tools: fastqc, trimmomatic, spades, kraken-biom
   "image": "ghcr.io/meekrob/metagenomics-codespace:latest",
 
-  // Minimal post-create setup (just conda and workspace structure)
-  "postCreateCommand": "bash .devcontainer/setup-minimal.sh",
+  // Minimal post-create setup (tools already in image)
+  "postCreateCommand": "echo '🧬 Metagenomics environment ready! Tools: fastqc, trimmomatic, spades, kraken-biom'",
 
-  // Forward RStudio Server port
-  "forwardPorts": [8787],
+  // Update command for prebuilds
+  "updateContentCommand": "micromamba clean -afy",
 
-  "portsAttributes": {
-    "8787": {
-      "label": "RStudio Server",
-      "onAutoForward": "notify",
-      "protocol": "http"
-    }
-  },
-
-  // VS Code customizations
+  // VS Code customizations - minimal extensions only
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python",
-        "ms-toolsai.jupyter",
-        "REditorSupport.r"
+        "ms-python.python"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
-        "r.rterm.linux": "/usr/local/bin/R",
-        "r.rpath.linux": "/usr/local/bin/R"
+        "files.watcherExclude": {
+          "**/dc_workshop/results/**": true,
+          "**/dc_workshop/data/**/*.fastq.gz": true
+        }
       }
     }
   },
 
-  // Run as rstudio user
-  "remoteUser": "rstudio",
-
   // Container environment variables
   "containerEnv": {
-    "DISABLE_AUTH": "true",
-    "PASSWORD": "metagenomics"
+    "MAMBA_ROOT_PREFIX": "/opt/conda"
   },
 
-  // Add conda feature
-  "features": {
-    "ghcr.io/devcontainers/features/conda:1": {
-      "version": "latest"
-    }
-  },
-
-  // Lifecycle scripts
-  // Note: RStudio Server auto-starts with rocker image
-  // To stop it: sudo rstudio-server stop
-  // To start manually: sudo rstudio-server start
-  "postStartCommand": "echo 'Codespace ready! RStudio Server is available but not started. Run: sudo rstudio-server start'",
-
-  // Override default command to prevent RStudio auto-start
-  "overrideCommand": true
+  "waitFor": "postCreateCommand"
 }

@@ -1,68 +1,69 @@
-# Pre-built Dockerfile for Metagenomics Analysis Codespace
-# This embeds the working phyloseq installation that was troubleshooted
-# Build once locally, push to GHCR, deploy instantly to Codespaces
+# Optimized Dockerfile for Metagenomics Analysis Codespace
+# Pre-installs bioinformatics tools for instant startup
+# No R/RStudio - command-line only workflow
 
-FROM rocker/rstudio:4.3
+FROM mcr.microsoft.com/devcontainers/python:3.9-bullseye
 
 # =============================================================================
 # System Dependencies
 # =============================================================================
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget curl gzip bzip2 unzip git screen less nano \
-    default-jre perl python3-pip \
+    wget curl bzip2 unzip git nano \
     build-essential \
-    libz-dev libbz2-dev liblzma-dev libncurses5-dev \
-    libglpk40 libglpk-dev \
-    libhdf5-dev \
-    libxml2-dev \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libgmp-dev \
-    sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure passwordless sudo
-RUN echo "rstudio ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/rstudio \
-    && chmod 0440 /etc/sudoers.d/rstudio
-
 # =============================================================================
-# R Packages - Using Your Working Installation Method
+# Install Micromamba (Lightweight Conda Alternative)
 # =============================================================================
 
-# Copy your pre-built binaries into the image
-COPY binaries/*.tar.gz /tmp/binaries/
+RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
+    mv bin/micromamba /usr/local/bin/ && \
+    rm -rf bin
 
-# Install CRAN dependencies first (same as your setup.sh)
-RUN R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
-    install.packages(c('jsonlite', 'cpp11', 'labeling', 'R6', 'viridisLite', \
-    'cli', 'gtable', 'isoband', 'lifecycle', 'rlang', 'S7', 'scales', 'vctrs', \
-    'withr', 'farver', 'permute', 'glue', 'magrittr', 'stringi', 'digest', \
-    'plyr', 'Rcpp', 'iterators', 'foreach', 'bitops', 'RCurl', 'ggplot2', \
-    'RColorBrewer', 'patchwork', 'vegan', 'stringr', 'crayon', 'lattice'))"
+# Initialize micromamba for all users
+RUN micromamba shell init -s bash -p /opt/conda
 
-# Install RStudio markdown rendering dependencies
-# These are needed for previewing .md files in RStudio
-RUN R -e "options(repos = c(CRAN = 'https://p3m.dev/cran/__linux__/jammy/latest')); \
-    install.packages(c('base64enc', 'evaluate', 'highr', 'htmltools', 'knitr', \
-    'mime', 'rmarkdown', 'xfun', 'yaml', 'bslib', 'fontawesome', 'jquerylib', \
-    'tinytex', 'fs', 'rappdirs', 'cachem', 'memoise', 'sass'))"
+# =============================================================================
+# Create Bioinformatics Environment with Tools
+# =============================================================================
 
-# Install pre-built binaries (your proven method)
-RUN for tgz in /tmp/binaries/*.tar.gz; do R CMD INSTALL "$tgz"; done
+# Create environment with essential tools
+RUN micromamba create -n metagenomics -y -c bioconda -c conda-forge \
+    python=3.9 \
+    fastqc=0.12.1 \
+    trimmomatic=0.39 \
+    spades=3.15.5 \
+    kraken-biom=1.2.0 \
+    && micromamba clean -afy
 
-# Verify phyloseq works
-RUN R -e "library(phyloseq); cat('\n=== phyloseq loaded successfully! ===\n')"
+# Make environment available globally
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+ENV PATH="/opt/conda/envs/metagenomics/bin:$PATH"
 
-# Clean up
-RUN rm -rf /tmp/binaries /tmp/downloaded_packages/ /tmp/*.rds
+# Auto-activate environment in bash
+RUN echo 'eval "$(micromamba shell hook --shell bash)"' >> /etc/bash.bashrc && \
+    echo 'micromamba activate metagenomics' >> /etc/bash.bashrc
+
+# =============================================================================
+# Create Workspace Structure
+# =============================================================================
+
+RUN mkdir -p /workspace/dc_workshop/data/{untrimmed_fastq,trimmed_fastq} && \
+    mkdir -p /workspace/dc_workshop/results/{fastqc_untrimmed_reads,fastqc_trimmed_reads,assembly_JC1A} && \
+    mkdir -p /workspace/dc_workshop/{taxonomy,mags,docs}
+
+# Download Trimmomatic adapters
+RUN cd /workspace/dc_workshop/data/untrimmed_fastq && \
+    wget -q -O TruSeq3-PE.fa \
+    https://raw.githubusercontent.com/timflutre/trimmomatic/master/adapters/TruSeq3-PE-2.fa
 
 # =============================================================================
 # Image Metadata
 # =============================================================================
 
-LABEL org.opencontainers.image.description="Metagenomics Analysis with RStudio + phyloseq"
+LABEL org.opencontainers.image.description="Metagenomics Analysis (command-line tools, no R/RStudio)"
 LABEL org.opencontainers.image.source="https://github.com/meekrob/codespace-metagenomics-analysis"
+LABEL org.opencontainers.image.tools="fastqc, trimmomatic, spades, kraken-biom"
 
-WORKDIR /home/rstudio
-CMD ["/init"]
+WORKDIR /workspace
