@@ -5,17 +5,9 @@
 FROM mcr.microsoft.com/devcontainers/python:3.9-bullseye
 
 # =============================================================================
-# System Dependencies
-# =============================================================================
-
-# Python devcontainer already has most tools, just add what's missing
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    bzip2 \
-    && rm -rf /var/lib/apt/lists/*
-
-# =============================================================================
 # Install Micromamba (Lightweight Conda Alternative)
 # =============================================================================
+# Note: Python devcontainer base image already has wget, curl, git, etc.
 
 RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
     mv bin/micromamba /usr/local/bin/ && \
