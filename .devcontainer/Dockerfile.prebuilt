@@ -2,7 +2,7 @@
 # Pre-installs bioinformatics tools for instant startup
 # No R/RStudio - command-line only workflow
 
-FROM mcr.microsoft.com/devcontainers/python:3.9-bullseye
+FROM python:3.9-bullseye
 
 # =============================================================================
 # Install Micromamba (Lightweight Conda Alternative)
@@ -13,21 +13,22 @@ RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bi
     mv bin/micromamba /usr/local/bin/ && \
     rm -rf bin
 
-# Initialize micromamba for all users
-RUN micromamba shell init -s bash -p /opt/conda
+# Set up micromamba root
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+RUN mkdir -p /opt/conda
 
 # =============================================================================
 # Create Bioinformatics Environment with Tools
 # =============================================================================
 
-# Create environment with essential tools
-RUN micromamba create -n metagenomics -y -c bioconda -c conda-forge \
+# Create environment with essential tools (skip shell init, do it manually)
+RUN /usr/local/bin/micromamba create -n metagenomics -y -c bioconda -c conda-forge \
     python=3.9 \
     fastqc=0.12.1 \
     trimmomatic=0.39 \
     spades=3.15.5 \
     kraken-biom=1.2.0 \
-    && micromamba clean -afy
+    && /usr/local/bin/micromamba clean -afy
 
 # Make environment available globally
 ENV MAMBA_ROOT_PREFIX=/opt/conda
