@@ -9,13 +9,14 @@ FROM python:3.9-bullseye
 # =============================================================================
 # Note: Python devcontainer base image already has wget, curl, git, etc.
 
-RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
-    mv bin/micromamba /usr/local/bin/ && \
-    rm -rf bin
-
-# Set up micromamba root
+# Set up micromamba root first
 ENV MAMBA_ROOT_PREFIX=/opt/conda
-RUN mkdir -p /opt/conda
+
+# Download, extract, and move micromamba
+# DON'T remove bin directory - it causes mkdir to fail somehow
+RUN curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba && \
+    cp bin/micromamba /usr/local/bin/micromamba && \
+    mkdir -p /opt/conda
 
 # =============================================================================
 # Create Bioinformatics Environment with Tools
