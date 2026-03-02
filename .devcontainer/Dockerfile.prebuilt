@@ -47,10 +47,11 @@ RUN mkdir -p /workspace/dc_workshop/data/{untrimmed_fastq,trimmed_fastq} && \
     mkdir -p /workspace/dc_workshop/results/{fastqc_untrimmed_reads,fastqc_trimmed_reads,assembly_JC1A} && \
     mkdir -p /workspace/dc_workshop/{taxonomy,mags,docs}
 
-# Download Trimmomatic adapters
+# Download Trimmomatic adapters (continue even if it fails)
 RUN cd /workspace/dc_workshop/data/untrimmed_fastq && \
-    wget -q -O TruSeq3-PE.fa \
-    https://raw.githubusercontent.com/timflutre/trimmomatic/master/adapters/TruSeq3-PE-2.fa
+    wget -O TruSeq3-PE.fa \
+    https://raw.githubusercontent.com/timflutre/trimmomatic/master/adapters/TruSeq3-PE-2.fa || \
+    echo "Note: Trimmomatic adapters download failed, students can download manually"
 
 # =============================================================================
 # Image Metadata
