@@ -8,9 +8,9 @@ FROM mcr.microsoft.com/devcontainers/python:3.9-bullseye
 # System Dependencies
 # =============================================================================
 
+# Python devcontainer already has most tools, just add what's missing
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget curl bzip2 unzip git nano \
-    build-essential \
+    bzip2 \
     && rm -rf /var/lib/apt/lists/*
 
 # =============================================================================
