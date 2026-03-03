@@ -1,15 +1,16 @@
 {
-  "name": "Metagenomics Analysis (Optimized)",
+  "name": "Metagenomics Analysis (Python + Micromamba)",
 
-  // Use pre-built image with tools already installed
+  // Use pre-built image from GitHub Actions workflow
+  // Built from Dockerfile.prebuilt: python:3.9-bullseye + micromamba
   // Tools: fastqc, trimmomatic, spades, kraken-biom
-  "image": "ghcr.io/meekrob/metagenomics-codespace:latest",
+  "image": "ghcr.io/dkbiocode/metagenomics-codespace:latest",
 
   // Minimal post-create setup (tools already in image)
   "postCreateCommand": "echo '🧬 Metagenomics environment ready! Tools: fastqc, trimmomatic, spades, kraken-biom'",
 
-  // Update command for prebuilds
-  "updateContentCommand": "micromamba clean -afy",
+  // Update command for prebuilds - clean micromamba cache
+  "updateContentCommand": "/usr/local/bin/micromamba clean -afy",
 
   // VS Code customizations - minimal extensions only
   "customizations": {
